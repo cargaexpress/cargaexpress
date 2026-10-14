@@ -1,52 +1,52 @@
 #!/usr/bin/env bash
-# Valida el mensaje de commit según docs/contribuir/convencion-de-commits.md
-# Activar una vez por clon:  git config core.hooksPath .githooks
+# Validates the commit message according to docs/contributing/commit-convention.md
+# Enable once per clone:  git config core.hooksPath .githooks
 set -euo pipefail
 
 file="$1"
 title="$(head -n1 "$file")"
 
-# Se permiten los commits automáticos de Git (merge, revert, fixup).
+# Git's automatic commits (merge, revert, fixup) are allowed.
 case "$title" in
   Merge\ *|Revert\ *|fixup!\ *|squash!\ *) exit 0 ;;
 esac
 
 fail() {
-  echo "Mensaje de commit inválido: $1" >&2
-  echo "  Título recibido: \"$title\"" >&2
-  echo "  Formato: tipo(scope opcional): descripción en inglés, imperativo, máx. 50 caracteres, sin punto final" >&2
-  echo "  Tipos: feat fix perf build ci docs refactor style test chore" >&2
-  echo "  Guía: docs/contribuir/convencion-de-commits.md" >&2
+  echo "Invalid commit message: $1" >&2
+  echo "  Received title: \"$title\"" >&2
+  echo "  Format: type(optional scope): description in English, imperative, max 50 characters, no trailing period" >&2
+  echo "  Types: feat fix perf build ci docs refactor style test chore" >&2
+  echo "  Guide: docs/contributing/commit-convention.md" >&2
   exit 1
 }
 
 pattern='^(feat|fix|perf|build|ci|docs|refactor|style|test|chore)(\([a-z0-9-]+\))?: .+'
-[[ "$title" =~ $pattern ]] || fail "debe empezar con tipo(scope): descripción"
+[[ "$title" =~ $pattern ]] || fail "must start with type(scope): description"
 
-[ "${#title}" -le 50 ] || fail "el título tiene ${#title} caracteres (máximo 50)"
+[ "${#title}" -le 50 ] || fail "the title has ${#title} characters (maximum 50)"
 
 trailing='[.…]$'
-[[ "$title" =~ $trailing ]] && fail "el título no lleva punto final ni puntos suspensivos"
+[[ "$title" =~ $trailing ]] && fail "the title must not end with a period or ellipsis"
 
 description="${title#*: }"
 
-# Un commit no puede ser solo un número de historia o de tarea.
+# A commit cannot be just a story or task number.
 ticket_only='^(HU|US|RIWI)[-_ ]?[0-9]+[[:space:]]*$'
 number_only='^#?[0-9]+$'
 if [[ "$description" =~ $ticket_only ]] || [[ "$description" =~ $number_only ]]; then
-  fail "describe el cambio; no basta con el número de la historia"
+  fail "describe the change; the story number alone is not enough"
 fi
 
-[[ "$description" =~ ^[a-z] ]] || fail "la descripción empieza en minúscula"
+[[ "$description" =~ ^[a-z] ]] || fail "the description must start in lowercase"
 
 first_word="$(echo "$description" | awk '{print tolower($1)}')"
 case "$first_word" in
   added|fixed|changed|removed|updated|created|deleted|adds|fixes|changes|removes|updates|creates|deletes|adding|fixing|changing|removing|updating|creating|deleting)
-    fail "usa el imperativo (add, fix, change, remove), no \"$first_word\"" ;;
+    fail "use the imperative mood (add, fix, change, remove), not \"$first_word\"" ;;
 esac
 
 if [ "$(sed -n '2p' "$file")" != "" ] && [ "$(wc -l < "$file")" -gt 1 ]; then
-  fail "deja una línea en blanco entre el título y el cuerpo"
+  fail "leave a blank line between the title and the body"
 fi
 
 exit 0
