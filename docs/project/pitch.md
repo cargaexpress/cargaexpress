@@ -20,22 +20,22 @@ formats, different timing. The result is late warnings, unclear blame and slow s
 
 ### In three steps
 
-1. **Receive and unify.** Every event, from every carrier, through a secure intake. Eight statuses instead of dozens. Nothing
+1. **Receive and unify.** Every event, from every carrier, through a secure intake. Eight statuses instead of each carrier's own codes. Nothing
    is ever lost, and the translation can be changed without redeploying.
 2. **Calculate and decide.** The SLA is counted in business days. The system warns **24 hours before** a delay happens and says
    who owns it and why.
 3. **Settle and notify.** Penalties are calculated automatically and passed on only to whoever caused the delay. The biweekly
    settlement is netted in **under 2 hours** instead of 4 days.
 
-### What changes for each person
+### What each person gets
 
-| For | Today | With the control tower |
-|---|---|---|
-| A brand | Calls to ask where an order is | Sees status, SLA and penalties itself |
-| A carrier | Disputes penalties it cannot verify | Sees only the penalties it caused, with the events behind them |
-| The control tower team | Finds delays after they happen | Gets at-risk orders with a likely cause |
-| Finance | Spends 4 days settling | Reviews a net settlement in under 2 hours |
-| Management | Has no single view | Reads one Power BI compliance dashboard |
+| For | With the control tower |
+|---|---|
+| A brand | Order status, SLA and penalties |
+| A carrier | The penalties attributed to it, and its events |
+| The control tower team | At-risk orders with a likely cause |
+| Finance | A net biweekly settlement, in under 2 hours instead of 4 days |
+| Management | One Power BI compliance dashboard |
 
 ### The promise
 
