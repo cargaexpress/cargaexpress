@@ -1,7 +1,8 @@
 # CargaExpress Docs
 
 Documentation site for CargaExpress Control Tower, built with [Docusaurus](https://docusaurus.io) 3 and written in English.
-Current content: the webhook simulator (HU-17), site deployment and the commit convention.
+It documents the whole control tower: architecture, decision records (ADRs), project status, the webhook simulator (HU-17),
+site deployment and the commit convention.
 
 ## Requirements
 
@@ -28,6 +29,9 @@ GitHub Pages on private repositories requires a paid plan, and the published sit
 
 ```
 docs/            pages (Markdown)
+  architecture/  overview, data model, API reference, local development
+  decisions/     decision records (ADRs)
+  project/       delivered, pending and open items
   simulator/     documentation for the webhook simulator (HU-17)
   deployment/    how to publish this site (GitHub Pages and an S3 alternative)
   contributing/  commit convention
