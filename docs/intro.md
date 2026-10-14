@@ -1,39 +1,39 @@
 ---
 id: intro
-title: Bienvenida
+title: Welcome
 slug: /
 sidebar_position: 1
 ---
 
 # CargaExpress Docs
 
-Documentación técnica de **CargaExpress Control Tower**, la torre de control logística que recibe pedidos y envíos y
-traduce los estados de cada transportadora a un vocabulario único.
+Technical documentation for **CargaExpress Control Tower**, the logistics control tower that receives orders and shipments and
+translates each carrier's statuses into a single vocabulary.
 
-## Qué encontrarás aquí
+## What you will find here
 
-| Sección | Contenido |
+| Section | Content |
 |---|---|
-| [Simulador de webhooks (HU-17)](./simulador/vision-general.md) | Servicio que simula 5 transportadoras Tipo A enviando eventos, con duplicados y eventos fuera de orden |
-| [Despliegue de este sitio](./despliegue/github-pages.md) | Cómo se publica esta documentación en GitHub Pages (con una alternativa en AWS S3) |
-| [Convención de commits](./contribuir/convencion-de-commits.md) | Cómo escribimos los commits del proyecto |
+| [Webhook simulator (HU-17)](./simulator/overview.md) | Service that simulates 5 Type A carriers sending events, with duplicates and out-of-order events |
+| [Deploying this site](./deployment/github-pages.md) | How this documentation is published to GitHub Pages (with an AWS S3 alternative) |
+| [Commit convention](./contributing/commit-convention.md) | How we write the project's commits |
 
-## Contexto del proyecto
+## Project context
 
-El backend (FastAPI, SQLAlchemy asíncrono, Alembic y PostgreSQL) maneja pedidos y un **mapeo de estados**: cada
-transportadora llama distinto a sus estados y el sistema los traduce a 8 estados canónicos.
+The backend (FastAPI, async SQLAlchemy, Alembic and PostgreSQL) handles orders and a **status mapping**: each carrier names
+its statuses differently and the system translates them into 8 canonical statuses.
 
-| Estado canónico | Significado |
+| Canonical status | Meaning |
 |---|---|
-| `CREATED` | Envío registrado |
-| `PICKED_UP` | Recolectado |
-| `IN_TRANSIT` | En tránsito |
-| `OUT_FOR_DELIVERY` | En reparto |
-| `EXCEPTION` | Novedad (intento fallido, retención, cancelación) |
-| `DELIVERED` | Entregado |
-| `RETURNED` | Devuelto al remitente |
-| `LOST_OR_DAMAGED` | Perdido o dañado |
+| `CREATED` | Shipment registered |
+| `PICKED_UP` | Picked up |
+| `IN_TRANSIT` | In transit |
+| `OUT_FOR_DELIVERY` | Out for delivery |
+| `EXCEPTION` | Exception (failed attempt, hold, cancellation) |
+| `DELIVERED` | Delivered |
+| `RETURNED` | Returned to sender |
+| `LOST_OR_DAMAGED` | Lost or damaged |
 
 :::note
-Esta documentación cubre por ahora el simulador de webhooks. Otras secciones se irán añadiendo.
+For now this documentation covers the webhook simulator. More sections will be added.
 :::
