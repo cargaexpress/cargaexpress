@@ -20,7 +20,7 @@ npm run serve        # serves build/ so you can review it
 ## Deploy to GitHub Pages
 
 The site is published automatically with GitHub Actions when changes are pushed to `main` (`.github/workflows/deploy-pages.yml`).
-One time only, on GitHub: **Settings → Pages → Source → GitHub Actions**. Address: `https://cargaexpress.github.io/simulator-docosaurus/`.
+One time only, on GitHub: **Settings → Pages → Source → GitHub Actions**. Address: `https://cargaexpress.github.io/cargaexpress/`.
 
 GitHub Pages on private repositories requires a paid plan, and the published site is public. Details in
 `docs/deployment/github-pages.md`. As an alternative, `docs/deployment/deploying-to-s3.md` explains how to publish to AWS S3.
