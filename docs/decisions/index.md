@@ -4,10 +4,24 @@ title: Decision records
 sidebar_position: 1
 ---
 
-# Decision records
+# Decision records (ADR)
 
-Each record explains **one decision taken in the project**: the context, what was decided and what follows from it. They
-cover the whole tower, not a single user story.
+## What is an ADR?
+
+**ADR** stands for *Architecture Decision Record*. It is a short page that explains **one technical decision** of the project:
+
+- **Context:** what problem or need existed.
+- **Decision:** what was chosen.
+- **Consequences:** what that choice gives us and what it costs us.
+- **Evidence:** where it can be seen in the code.
+
+Think of it as the project's memory: when someone asks *"why is it built this way?"*, the answer is written here instead of
+living in someone's head.
+
+In Jira this work is tracked as **US-09 (RIWI-48)** *Maintain Architecture Document and Decision Records*, with the subtasks
+**RIWI-49** (architecture document template) and **RIWI-50** (record architecture decisions in ADR format), and the first
+drafts in **RIWI-24** (*Draft at least 2 initial ADRs*, part of **US-03**). The records cover the whole tower, not a single
+user story.
 
 :::note How these records were written
 They were reconstructed from the code, configuration and documentation currently in the repositories, and each one lists its
