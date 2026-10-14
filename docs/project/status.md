@@ -28,7 +28,7 @@ actually in the repositories, so the two can be compared.
 |---|---|
 | `cargaexpress_control_tower` | Backend API (FastAPI, PostgreSQL, Docker). Work in progress lives in feature branches |
 | `cargaexpress_seed` | Database seed with defect injection and the 25-table ERD |
-| `simulator-docosaurus` | This documentation site |
+| `cargaexpress` | This documentation site |
 
 ## What is in `main` of the backend
 
