@@ -15,7 +15,7 @@ The documentation of the tower and of the decisions taken in the project needs o
 ## Decision
 
 - **Docusaurus 3** generates a static site from Markdown.
-- It lives in its **own repository** in the `cargaexpress` organization (`simulator-docosaurus`), not in the main repository.
+- It lives in its **own repository** in the `cargaexpress` organization (`cargaexpress`), not in the main repository.
 - It is published with **GitHub Pages through GitHub Actions** on every push to `main`. AWS S3 is kept only as a documented alternative.
 - **All content is written in English.**
 - The site address comes from environment variables (`SITE_URL`, `BASE_URL`), so renaming the repository does not break links.
@@ -24,7 +24,7 @@ The documentation of the tower and of the decisions taken in the project needs o
 
 - Publishing is automatic, and the published site is **public**: no confidential information goes in.
 - GitHub Pages on a private repository needs a paid plan; the repository is public.
-- The repository name contains a typo (`docosaurus`). Fixing it changes the public URL.
+- The repository was first named `simulator-docosaurus` (with a typo) and was renamed to `cargaexpress`, which changed the public URL.
 
 ## Evidence
 
