@@ -112,11 +112,11 @@ The estimated infrastructure cost is about USD 460 per month. See [Costs](../pro
 
 ## What was built from it
 
-| Piece | Status |
+| Piece | Status in the repositories reviewed |
 |---|---|
 | FastAPI service, PostgreSQL, Docker | Built in sprint 1 and 2. See [Backend foundations](./backend-foundations.md) |
 | Status mapping | Built in sprint 2. See [Sprint 2 · week 1](../sprint-2/week-1.md) |
 | RabbitMQ in Docker Compose | In a feature branch. See [Sprint 2 · week 2](../sprint-2/week-2.md) |
-| Webhook receiver, consumers, SLA, penalties, settlement | Not built yet. See [Project status](../project/status.md) |
-| Airflow, Spark, S3 data lake, Athena, Power BI | Not built yet |
-| AWS deployment and CI/CD | Not built yet |
+| Webhook receiver, consumers, SLA, penalties, settlement | Not found. See [Project status](../project/status.md) |
+| Airflow, Spark, S3 data lake, Athena, Power BI | Not found |
+| AWS deployment and CI/CD | Not found |
