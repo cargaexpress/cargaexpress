@@ -21,7 +21,7 @@ const sidebars = {
     {
       type: 'category',
       label: 'Despliegue de este sitio',
-      items: ['despliegue/desplegar-este-sitio'],
+      items: ['despliegue/github-pages', 'despliegue/desplegar-este-sitio'],
     },
     {
       type: 'category',
