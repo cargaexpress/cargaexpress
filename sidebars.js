@@ -33,7 +33,7 @@ const sidebars = {
     {
       type: 'category',
       label: 'Project status',
-      items: ['project/status'],
+      items: ['project/status', 'project/user-stories'],
     },
     {
       type: 'category',
