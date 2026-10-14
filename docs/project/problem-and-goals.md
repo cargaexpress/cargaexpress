@@ -15,10 +15,10 @@ The last mile is outsourced to **12 carriers**, and every carrier tracks shipmen
 |---|---|
 | **Many languages** | Each carrier uses its own status codes and event formats. One carrier alone can have around 14 different codes that all mean "delivered" |
 | **Messy data** | Events arrive out of order, duplicated, for guides that do not exist, or after an order was already delivered |
-| **Late warnings** | Delays are discovered after the SLA has already been broken |
+| **No early warning** | There is no advance warning of SLA breaches; the goal is to give it 24 hours ahead |
 | **Unclear responsibility** | It is hard to tell whether a delay belongs to the distribution center, the carrier or the brand |
-| **Slow money** | Penalties are settled in about 4 days after each half-month |
-| **Unhappy brands** | Brands complain because they cannot see where their orders are or why they are late |
+| **Slow settlement** | The biweekly settlement takes about 4 days today; the goal is under 2 hours |
+| **Brand complaints** | Complaints from brands are a business problem; the goal is to reduce them by 30% |
 
 ## The solution in one sentence
 
