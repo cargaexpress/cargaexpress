@@ -19,7 +19,7 @@ npm run serve        # sirve build/ para revisarlo
 ## Desplegar en GitHub Pages
 
 Se publica solo con GitHub Actions al subir cambios a `main` (`.github/workflows/deploy-pages.yml`). Una sola vez, en GitHub:
-**Settings → Pages → Source → GitHub Actions**. Dirección: `https://julianvanegs.github.io/cargaexpress-docs/`.
+**Settings → Pages → Source → GitHub Actions**. Dirección: `https://cargaexpress.github.io/simulator-docosaurus/`.
 
 GitHub Pages en repositorios privados requiere un plan de pago, y el sitio publicado es público. Detalles en
 `docs/despliegue/github-pages.md`. Como alternativa, `docs/despliegue/desplegar-este-sitio.md` explica cómo publicar en AWS S3.
