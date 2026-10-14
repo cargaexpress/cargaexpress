@@ -2,7 +2,7 @@
   "name": "cargaexpress-docs",
   "version": "1.0.0",
   "private": true,
-  "description": "Documentación de CargaExpress Control Tower (Docusaurus)",
+  "description": "CargaExpress Control Tower documentation (Docusaurus)",
   "scripts": {
     "start": "docusaurus start",
     "build": "docusaurus build",
