@@ -1,22 +1,22 @@
 ---
-id: estados
-title: Catálogo de estados
+id: statuses
+title: Status catalog
 sidebar_position: 3
 ---
 
-# Catálogo de estados por transportadora
+# Status catalog per carrier
 
-Cada transportadora tiene **10 u 11 estados propios** (el mínimo exigido es 6), todos traducibles a los 8 estados canónicos del backend.
+Each carrier has **10 or 11 statuses of its own** (the required minimum is 6), all of them translatable to the backend's 8 canonical statuses.
 
-:::info Relación con el backend
-Alpha, Beta y Gamma usan exactamente los estados que ya existen en el mapeo de estados sembrado en la base de datos del backend. **Delta y Epsilon son nuevas**: todavía no tienen transportadora ni mapeo en el backend.
+:::info Relationship with the backend
+Alpha, Beta and Gamma use exactly the statuses that already exist in the status mapping seeded in the backend database. **Delta and Epsilon are new**: they do not have a carrier or a mapping in the backend yet.
 :::
 
 ## SimCarrier Alpha (`alpha`)
 
-10 estados · formato `json_flat` · guías con prefijo `ALP`
+10 statuses · `json_flat` format · tracking numbers prefixed with `ALP`
 
-| Estado propio | Estado canónico | Nota |
+| Carrier status | Canonical status | Note |
 |---|---|---|
 | `CREATED` | `CREATED` |  |
 | `PICKED_UP` | `PICKED_UP` |  |
@@ -25,15 +25,15 @@ Alpha, Beta y Gamma usan exactamente los estados que ya existen en el mapeo de e
 | `DELIVERED` | `DELIVERED` |  |
 | `DELIVERY_ATTEMPT_FAILED` | `EXCEPTION` |  |
 | `HELD_AT_CUSTOMS` | `EXCEPTION` |  |
-| `CANCELLED` | `EXCEPTION` | se usa para cancelaciones |
+| `CANCELLED` | `EXCEPTION` | used for cancellations |
 | `RETURNED_TO_SENDER` | `RETURNED` |  |
 | `LOST_OR_DAMAGED` | `LOST_OR_DAMAGED` |  |
 
 ## SimCarrier Beta (`beta`)
 
-10 estados · formato `json_nested` · guías con prefijo `BET`
+10 statuses · `json_nested` format · tracking numbers prefixed with `BET`
 
-| Estado propio | Estado canónico | Nota |
+| Carrier status | Canonical status | Note |
 |---|---|---|
 | `100` | `CREATED` |  |
 | `200` | `PICKED_UP` |  |
@@ -42,15 +42,15 @@ Alpha, Beta y Gamma usan exactamente los estados que ya existen en el mapeo de e
 | `500` | `DELIVERED` |  |
 | `600` | `EXCEPTION` |  |
 | `900` | `EXCEPTION` |  |
-| `800` | `EXCEPTION` | se usa para cancelaciones |
+| `800` | `EXCEPTION` | used for cancellations |
 | `700` | `RETURNED` |  |
 | `999` | `LOST_OR_DAMAGED` |  |
 
 ## SimCarrier Gamma (`gamma`)
 
-10 estados · formato `json_es` · guías con prefijo `GAM`
+10 statuses · `json_es` format · tracking numbers prefixed with `GAM`
 
-| Estado propio | Estado canónico | Nota |
+| Carrier status | Canonical status | Note |
 |---|---|---|
 | `Generada` | `CREATED` |  |
 | `Recolectada` | `PICKED_UP` |  |
@@ -59,15 +59,15 @@ Alpha, Beta y Gamma usan exactamente los estados que ya existen en el mapeo de e
 | `Entregada` | `DELIVERED` |  |
 | `Intento fallido` | `EXCEPTION` |  |
 | `Novedad` | `EXCEPTION` |  |
-| `Cancelada` | `EXCEPTION` | se usa para cancelaciones |
+| `Cancelada` | `EXCEPTION` | used for cancellations |
 | `Devuelta al remitente` | `RETURNED` |  |
 | `Perdida o dañada` | `LOST_OR_DAMAGED` |  |
 
 ## SimCarrier Delta (`delta`)
 
-11 estados · formato `xml` · guías con prefijo `DEL`
+11 statuses · `xml` format · tracking numbers prefixed with `DEL`
 
-| Estado propio | Estado canónico | Nota |
+| Carrier status | Canonical status | Note |
 |---|---|---|
 | `NEW` | `CREATED` |  |
 | `PCK` | `PICKED_UP` |  |
@@ -77,15 +77,15 @@ Alpha, Beta y Gamma usan exactamente los estados que ya existen en el mapeo de e
 | `DLV` | `DELIVERED` |  |
 | `NDL` | `EXCEPTION` |  |
 | `HLD` | `EXCEPTION` |  |
-| `CNL` | `EXCEPTION` | se usa para cancelaciones |
+| `CNL` | `EXCEPTION` | used for cancellations |
 | `RTS` | `RETURNED` |  |
 | `LST` | `LOST_OR_DAMAGED` |  |
 
 ## SimCarrier Epsilon (`epsilon`)
 
-11 estados · formato `form` · guías con prefijo `EPS`
+11 statuses · `form` format · tracking numbers prefixed with `EPS`
 
-| Estado propio | Estado canónico | Nota |
+| Carrier status | Canonical status | Note |
 |---|---|---|
 | `Shipment registered` | `CREATED` |  |
 | `Collected from sender` | `PICKED_UP` |  |
@@ -95,20 +95,20 @@ Alpha, Beta y Gamma usan exactamente los estados que ya existen en el mapeo de e
 | `Delivered to recipient` | `DELIVERED` |  |
 | `Delivery attempt unsuccessful` | `EXCEPTION` |  |
 | `Held - address verification` | `EXCEPTION` |  |
-| `Cancelled by shipper` | `EXCEPTION` | se usa para cancelaciones |
+| `Cancelled by shipper` | `EXCEPTION` | used for cancellations |
 | `Returned to shipper` | `RETURNED` |  |
 | `Lost or damaged in transit` | `LOST_OR_DAMAGED` |  |
 
-## Ciclos de vida que se generan
+## Generated lifecycles
 
-| Peso | Recorrido |
+| Weight | Path |
 |---|---|
-| 55 | Creado → recolectado → en tránsito → en reparto → entregado |
-| 15 | Igual, con dos eventos en tránsito |
-| 10 | Novedad en el reparto y luego entregado |
-| 6 | Novedad en tránsito y luego entregado |
-| 6 | Novedad en el reparto y luego devuelto |
-| 4 | Perdido o dañado en tránsito |
-| 4 | Creado y luego cancelado |
+| 55 | Created → picked up → in transit → out for delivery → delivered |
+| 15 | Same, with two in-transit events |
+| 10 | Exception during delivery, then delivered |
+| 6 | Exception in transit, then delivered |
+| 6 | Exception during delivery, then returned |
+| 4 | Lost or damaged in transit |
+| 4 | Created, then cancelled |
 
-Con esto, en una simulación larga se alcanzan **todos** los estados de cada catálogo.
+With this mix, a long simulation reaches **every** status of each catalog.
