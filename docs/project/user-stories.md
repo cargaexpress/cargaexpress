@@ -10,9 +10,10 @@ Every user story of the project, grouped by epic, with its owner, its Jira statu
 data comes from a Jira export of project RIWI (72 issues).
 
 :::note How to read the Jira types
-Jira holds three levels: **epics** group a theme, **stories and tasks** carry the user stories, and **subtasks** are the
-concrete work. The first nine stories (`US-01` to `US-09`) are typed *Story*. From sprint 2 on, the stories (`HU-11` onward)
-are typed *Task* in Jira, but they are user stories all the same.
+In Jira, **epics** (purple) group a theme, **user stories** (green) and **HU tasks** (blue) carry the user stories, and
+**subtasks** (blue) are the concrete work. The first nine stories (`US-01` to `US-09`) are typed *Story*. From sprint 2 on, the
+main user stories are the `HU-11` onward, typed *Task* in Jira. Setup task `RIWI-1` (AWS and Jira creation) is not a user story
+and is not listed.
 :::
 
 :::warning This export only contains finished work
@@ -220,13 +221,6 @@ by a filter, so this page will be completed when an unfiltered export is availab
 - RIWI-86 · Dockerize the simulator separately from the backend. (Julian Vanegas)
 
 </details>
-
-
-## No epic
-
-| Story | Title | Owner | Jira | Where the work is |
-|---|---|---|---|---|
-| — · RIWI-1 | CREACION DE AWS Y JIRA | — | Finalizado | Environment setup |
 
 
 ## Parents that are not in the export
