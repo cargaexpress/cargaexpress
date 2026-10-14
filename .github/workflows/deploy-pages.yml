@@ -1,5 +1,5 @@
-# Publica el sitio de documentación en GitHub Pages cada vez que cambia la rama main.
-# Requisito (una sola vez): Settings > Pages > Source = "GitHub Actions".
+# Publishes the documentation site to GitHub Pages every time the main branch changes.
+# Requirement (one time only): Settings > Pages > Source = "GitHub Actions".
 name: Deploy docs to GitHub Pages
 
 on:
