@@ -15,7 +15,7 @@ traduce los estados de cada transportadora a un vocabulario único.
 | Sección | Contenido |
 |---|---|
 | [Simulador de webhooks (HU-17)](./simulador/vision-general.md) | Servicio que simula 5 transportadoras Tipo A enviando eventos, con duplicados y eventos fuera de orden |
-| [Despliegue de este sitio](./despliegue/desplegar-este-sitio.md) | Cómo publicar esta documentación en AWS S3 |
+| [Despliegue de este sitio](./despliegue/github-pages.md) | Cómo se publica esta documentación en GitHub Pages (con una alternativa en AWS S3) |
 | [Convención de commits](./contribuir/convencion-de-commits.md) | Cómo escribimos los commits del proyecto |
 
 ## Contexto del proyecto
