@@ -12,7 +12,7 @@ to be built or uploaded by hand.
 ## Site address
 
 ```text
-https://cargaexpress.github.io/simulator-docosaurus/
+https://cargaexpress.github.io/cargaexpress/
 ```
 
 ## Enable it (one time only)
@@ -32,13 +32,13 @@ repository is private, except on Enterprise plans with private Pages. Do not pub
 ## How it works
 
 The workflow (`.github/workflows/deploy-pages.yml`) installs the dependencies, builds the site with the variables
-`SITE_URL=https://cargaexpress.github.io` and `BASE_URL=/simulator-docosaurus/`, and publishes the `build` folder.
+`SITE_URL=https://cargaexpress.github.io` and `BASE_URL=/cargaexpress/`, and publishes the `build` folder.
 
 ## Test the Pages version on your computer
 
 ```bash
-SITE_URL=https://cargaexpress.github.io BASE_URL=/simulator-docosaurus/ npm run build
-npm run serve        # opens http://localhost:3000/simulator-docosaurus/
+SITE_URL=https://cargaexpress.github.io BASE_URL=/cargaexpress/ npm run build
+npm run serve        # opens http://localhost:3000/cargaexpress/
 ```
 
 ## If something fails
