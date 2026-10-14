@@ -1,10 +1,14 @@
 ---
 id: desplegar-este-sitio
-title: Desplegar este sitio en S3
-sidebar_position: 1
+title: Alternativa - desplegar en S3
+sidebar_position: 2
 ---
 
-# Desplegar este sitio en AWS S3
+# Alternativa: desplegar este sitio en AWS S3
+
+:::note
+El despliegue principal es [GitHub Pages](./github-pages.md). Esta guía queda como alternativa si algún día se prefiere AWS.
+:::
 
 El sitio es estático (Docusaurus), así que se publica en un bucket de S3 con alojamiento web. No hay servidores encendidos y el
 costo es mínimo.
