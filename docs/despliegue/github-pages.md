@@ -12,7 +12,7 @@ nada a mano.
 ## Dirección del sitio
 
 ```text
-https://julianvanegs.github.io/cargaexpress-docs/
+https://cargaexpress.github.io/simulator-docosaurus/
 ```
 
 ## Activarlo (una sola vez)
@@ -32,13 +32,13 @@ repositorio sea privado, salvo en planes Enterprise con Pages privadas. No publi
 ## Cómo funciona
 
 El flujo (`.github/workflows/deploy-pages.yml`) instala las dependencias, construye el sitio con las variables
-`SITE_URL=https://julianvanegs.github.io` y `BASE_URL=/cargaexpress-docs/`, y publica la carpeta `build`.
+`SITE_URL=https://cargaexpress.github.io` y `BASE_URL=/simulator-docosaurus/`, y publica la carpeta `build`.
 
 ## Probar la versión de Pages en tu computador
 
 ```bash
-SITE_URL=https://julianvanegs.github.io BASE_URL=/cargaexpress-docs/ npm run build
-npm run serve        # abre http://localhost:3000/cargaexpress-docs/
+SITE_URL=https://cargaexpress.github.io BASE_URL=/simulator-docosaurus/ npm run build
+npm run serve        # abre http://localhost:3000/simulator-docosaurus/
 ```
 
 ## Si algo falla
