@@ -1,0 +1,48 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: >
+  Bucket S3 con alojamiento de sitio web estático para la documentación (Docusaurus).
+  El contenido es público de solo lectura. No publiques información confidencial.
+
+Parameters:
+  BucketName:
+    Type: String
+    Description: Nombre único global del bucket (minúsculas, números y guiones)
+    AllowedPattern: "^[a-z0-9][a-z0-9-]{2,62}$"
+
+Resources:
+  SiteBucket:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Delete
+    Properties:
+      BucketName: !Ref BucketName
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        IgnorePublicAcls: true
+        BlockPublicPolicy: false
+        RestrictPublicBuckets: false
+      OwnershipControls:
+        Rules:
+          - ObjectOwnership: BucketOwnerEnforced
+      WebsiteConfiguration:
+        IndexDocument: index.html
+        ErrorDocument: 404.html
+
+  SiteReadPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref SiteBucket
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Sid: LecturaPublicaDelSitio
+            Effect: Allow
+            Principal: "*"
+            Action: s3:GetObject
+            Resource: !Sub "arn:${AWS::Partition}:s3:::${BucketName}/*"
+
+Outputs:
+  BucketName:
+    Value: !Ref SiteBucket
+  SiteUrl:
+    Description: Dirección pública del sitio (HTTP)
+    Value: !GetAtt SiteBucket.WebsiteURL
