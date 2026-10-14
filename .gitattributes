@@ -1,4 +1,4 @@
-# Finales de línea siempre LF: evita que los scripts .sh y el hook fallen en Windows.
+# Always use LF line endings: prevents the .sh scripts and the hook from failing on Windows.
 * text=auto eol=lf
 *.sh text eol=lf
 .githooks/* text eol=lf
