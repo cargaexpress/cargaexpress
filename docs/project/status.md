@@ -19,7 +19,7 @@ actually in the repositories, so the two can be compared.
 |---|---|
 | Epics in the export | 7 (plus 3 parents that were filtered out) |
 | User stories (`US-01` to `US-09`) | 9, all *Finalizado* in Jira |
-| Sprint 2 stories (`HU-11` to `HU-19`) | 8 in the export, all *Finalizado* in Jira |
+| Main user stories (`HU-11` to `HU-19`) | 8 in the export, all *Finalizado* in Jira |
 | Subtasks | 47, all *Finalizado* in Jira |
 
 ## Repositories
