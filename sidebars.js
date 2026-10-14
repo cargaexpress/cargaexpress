@@ -16,7 +16,7 @@ const sidebars = {
     },
     {
       type: 'category',
-      label: 'Decision records',
+      label: 'Decision records (ADR)',
       collapsed: false,
       items: [
         'decisions/index',
