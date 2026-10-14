@@ -18,7 +18,7 @@ carriers, and translates every carrier's own statuses into one shared vocabulary
 | Migrations | Alembic | `backend/alembic/versions` | Schema and seed data; applied on every backend start |
 | Containers | Docker Compose, multi-stage Dockerfile with `uv` | repository root and `backend/Dockerfile` | One command runs the API and the database |
 | Webhook simulator | Python, standard library, optional `boto3` | its own repository | Simulates 5 Type A carriers sending events (see [Webhook simulator](../simulator/overview.md)) |
-| Documentation site | Docusaurus 3 on GitHub Pages | `cargaexpress/simulator-docosaurus` | This site |
+| Documentation site | Docusaurus 3 on GitHub Pages | `cargaexpress/cargaexpress` | This site |
 
 ## How the pieces fit together
 
