@@ -16,28 +16,26 @@ npm run build        # genera la carpeta build/
 npm run serve        # sirve build/ para revisarlo
 ```
 
-## Desplegar en AWS S3
+## Desplegar en GitHub Pages
 
-Guía completa en `docs/despliegue/desplegar-este-sitio.md`. En resumen:
+Se publica solo con GitHub Actions al subir cambios a `main` (`.github/workflows/deploy-pages.yml`). Una sola vez, en GitHub:
+**Settings → Pages → Source → GitHub Actions**. Dirección: `https://julianvanegs.github.io/cargaexpress-docs/`.
 
-```bash
-aws cloudformation deploy --template-file deploy/aws/site-bucket.yaml \
-  --stack-name cargaexpress-docs --parameter-overrides BucketName=cargaexpress-docs-TUNOMBRE --region us-east-2
-cp .env.example .env.local        # completar los valores
-npm run deploy:s3                 # en Windows, desde Git Bash
-```
+GitHub Pages en repositorios privados requiere un plan de pago, y el sitio publicado es público. Detalles en
+`docs/despliegue/github-pages.md`. Como alternativa, `docs/despliegue/desplegar-este-sitio.md` explica cómo publicar en AWS S3.
 
 ## Estructura
 
 ```
 docs/            páginas (Markdown)
   simulador/     documentación del simulador de webhooks (HU-17)
-  despliegue/    cómo publicar este sitio
+  despliegue/    cómo publicar este sitio (GitHub Pages y alternativa S3)
   contribuir/    convención de commits
 src/css/         colores del sitio
 static/img/      logo y favicon
-deploy/aws/      plantilla de CloudFormation del bucket
-scripts/         script de despliegue a S3
+deploy/aws/      plantilla de CloudFormation del bucket (alternativa S3)
+scripts/         script de despliegue a S3 (alternativa)
+.github/         flujo que publica en GitHub Pages
 .githooks/       hook que valida los mensajes de commit
 ```
 
