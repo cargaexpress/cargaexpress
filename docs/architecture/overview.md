@@ -27,9 +27,9 @@ carriers, and translates every carrier's own statuses into one shared vocabulary
         │  webhooks (push)                          │  X-Admin-Token
         ▼                                           ▼
  ┌──────────────────────────  Backend API (FastAPI)  ─────────────────────────┐
- │  /api/v1/health   /api/v1/pedidos   /api/v1/admin/state-mappings  ...      │
- │        │                │                        │                          │
- │        │          order_service        mapeo_estados_service + TTL cache    │
+ │  /api/v1/health   /api/v1/orders   /api/v1/admin/state-mappings  ...       │
+ │        │                │                        │                         │
+ │        │          order_service        state mapping service + TTL cache   │
  └────────┼────────────────┼────────────────────────┼──────────────────────────┘
           ▼                ▼                        ▼
                       PostgreSQL 16  (orders, WMS tables, state_mapping)
