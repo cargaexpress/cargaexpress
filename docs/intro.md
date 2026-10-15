@@ -17,12 +17,10 @@ project, not a single user story.
 |---|---|
 | [Project](./project/problem-and-goals.md) | Problem, goals, user stories and backlog, team and process, costs, pitch, status and sources |
 | [Sprint 1 · Design](./sprint-1/index.md) | Business rules, canonical states, architecture v1, data flow, data model, SLA, seed data |
-| [Sprint 2 · Build](./sprint-2/index.md) | What was implemented each week and how it differs from the design |
+| [Sprint 2 · Build](./sprint-2/index.md) | What was implemented in each week of the sprint |
 | [Decision records](./decisions/index.md) | The decisions taken in the project, with context and consequences |
-| [Architecture](./architecture/aws-architecture.md) | The AWS reference architecture, the implemented backend, data model, API reference and how to run the project |
+| [Architecture](./architecture/aws-architecture.md) | The AWS reference architecture, the implemented backend, data model and how to run the project |
 | [Webhook simulator (HU-17)](./simulator/overview.md) | Service that simulates 5 Type A carriers sending events |
-| [This documentation site](./deployment/github-pages.md) | How the site is published to GitHub Pages |
-| [Contributing](./contributing/commit-convention.md) | How we write the project's commits |
 
 ## The tower in one minute
 
@@ -44,7 +42,7 @@ its statuses differently and the system translates them into 8 canonical statuse
 
 - What problem are we solving: [problem and goals](./project/problem-and-goals.md).
 - What was defined in Sprint 1: [Sprint 1 overview](./sprint-1/index.md).
-- What changed since: [Sprint 2 overview](./sprint-2/index.md) and [design versus implementation](./sprint-2/design-vs-implementation.md).
+- What changed since: [Sprint 2 overview](./sprint-2/index.md).
 - Why things are built this way: [decision records](./decisions/index.md).
 - Where we are today: [project status](./project/status.md).
 - Run it: [local development guide](./architecture/local-development.md).
