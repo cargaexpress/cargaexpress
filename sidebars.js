@@ -63,8 +63,9 @@ const sidebars = {
     },
     {
       type: 'category',
-      label: 'Implemented backend',
+      label: 'Architecture',
       items: [
+        'architecture/aws-architecture',
         'architecture/overview',
         'architecture/data-model',
         'architecture/api-reference',
