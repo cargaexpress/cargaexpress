@@ -166,16 +166,16 @@ by a filter, so this page will be completed when an unfiltered export is availab
 
 | Story | Title | Owner | Jira | Where the work is |
 |---|---|---|---|---|
-| HU-13 · RIWI-63 | Order CRUD Endpoints | Alexandra Peña Orozco | Finalizado | `main`. Jira names `PATCH /pedidos/{id}/despacho`; the code serves `PATCH /pedidos/{id}/status` |
+| HU-13 · RIWI-63 | Order CRUD Endpoints | Alexandra Peña Orozco | Finalizado | `main`. Jira names `PATCH /orders/{id}/dispatch`; the code serves `PATCH /orders/{id}/status` |
 | HU-14 · RIWI-68 | Order-Associated Shipping Label Endpoints | Helda Reyes | Finalizado | **Branch only:** `feature/RIWI-68`, not merged into `main` |
 | HU-15 · RIWI-72 | Status Mapping Endpoints | Julian Vanegas | Finalizado | `main`, but the router is **not registered** in `app/main.py` |
 
 <details>
 <summary>HU-13: 4 subtasks</summary>
 
-- RIWI-64 · Implement POST /api/v1/pedidos (Alexandra Peña Orozco)
-- RIWI-65 · Implement GET /api/v1/pedidos and GET /api/v1/pedidos/\{id\} (Alexandra Peña Orozco)
-- RIWI-66 · Implement PATCH /api/v1/pedidos/\{id\}/despacho (Alexandra Peña Orozco)
+- RIWI-64 · Implement POST /api/v1/orders (Alexandra Peña Orozco)
+- RIWI-65 · Implement GET /api/v1/orders and GET /api/v1/orders/\{id\} (Alexandra Peña Orozco)
+- RIWI-66 · Implement PATCH /api/v1/orders/\{id\}/dispatch (Alexandra Peña Orozco)
 - RIWI-67 · Write pytest tests for each endpoint (Alexandra Peña Orozco)
 
 </details>
@@ -183,16 +183,16 @@ by a filter, so this page will be completed when an unfiltered export is availab
 <details>
 <summary>HU-14: 2 subtasks</summary>
 
-- RIWI-69 · Implement POST /api/v1/pedidos/\{id\}/guias (Helda Reyes)
-- RIWI-70 · Implement GET /api/v1/pedidos/\{id\}/guias (Helda Reyes)
+- RIWI-69 · Implement POST /api/v1/orders/\{id\}/shipping-labels (Helda Reyes)
+- RIWI-70 · Implement GET /api/v1/orders/\{id\}/shipping-labels (Helda Reyes)
 
 </details>
 
 <details>
 <summary>HU-15: 3 subtasks</summary>
 
-- RIWI-73 · Implement GET /api/v1/admin/mapeo-estados/\{id\} (Julian Vanegas)
-- RIWI-74 · Implement PUT /api/v1/admin/mapeo-estados/\{id\} (Julian Vanegas)
+- RIWI-73 · Implement GET /api/v1/admin/carrier-state-mapping/\{id\} (Julian Vanegas)
+- RIWI-74 · Implement PUT /api/v1/admin/carrier-state-mapping/\{id\} (Julian Vanegas)
 - RIWI-75 · Write a pytest test verifying that the change is reflected without restarting the service. (Julian Vanegas)
 
 </details>
