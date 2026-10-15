@@ -15,7 +15,7 @@ This mode **does not receive** webhooks: it publishes data to be read. For push 
 
 ## What gets published
 
-| URL (under the `simulador/` folder) | Content |
+| URL (under the `simulator/` folder) | Content |
 |---|---|
 | `index.json` | Summary: configuration, totals and file list |
 | `events/all.ndjson` | All messages, one per line, in arrival order |
@@ -31,10 +31,10 @@ carrier would send it).
 You need Python 3.12 or later; nothing else has to be installed. From the simulator folder:
 
 ```bash
-python3 -m webhook_simulator.publisher --local-dir salida --events 1000 --seed 1
+python3 -m webhook_simulator.publisher --local-dir output --events 1000 --seed 1
 ```
 
-On Windows use `python` instead of `python3`. This creates `salida/simulador/` with `index.json` and the `events` folder.
+On Windows use `python` instead of `python3`. This creates `output/simulator/` with `index.json` and the `events` folder.
 
 ### Part 2: create the bucket
 
@@ -57,7 +57,7 @@ In the bucket's **Permissions** tab, under **Bucket policy**, paste the followin
       "Effect": "Allow",
       "Principal": "*",
       "Action": "s3:GetObject",
-      "Resource": "arn:aws:s3:::YOUR-BUCKET-NAME/simulador/*"
+      "Resource": "arn:aws:s3:::YOUR-BUCKET-NAME/simulator/*"
     }
   ]
 }
@@ -65,13 +65,13 @@ In the bucket's **Permissions** tab, under **Bucket policy**, paste the followin
 
 ### Part 4: upload the files
 
-In the **Objects** tab click **Upload → Add folder** and choose the `salida/simulador` folder (**the whole `simulador`
-folder**, not the `salida` folder). The policy only grants access to the `simulador/*` path.
+In the **Objects** tab click **Upload → Add folder** and choose the `output/simulator` folder (**the whole `simulator`
+folder**, not the `output` folder). The policy only grants access to the `simulator/*` path.
 
 ### Part 5: make the GET request
 
 ```text
-https://YOUR-BUCKET-NAME.s3.REGION.amazonaws.com/simulador/index.json
+https://YOUR-BUCKET-NAME.s3.REGION.amazonaws.com/simulator/index.json
 ```
 
 The region must be **the bucket's region** (for example `us-east-2`). Otherwise AWS answers `PermanentRedirect` and shows the
@@ -83,13 +83,13 @@ The browser downloads `.ndjson` files instead of displaying them. Open them with
 
 ## AWS CLI path
 
-With a CloudFormation template that creates the bucket with public read access only for `simulador/`, CORS, and automatic
+With a CloudFormation template that creates the bucket with public read access only for `simulator/`, CORS, and automatic
 deletion after 30 days:
 
 ```bash
 aws cloudformation deploy \
   --template-file deploy/aws/bucket.yaml \
-  --stack-name cargaexpress-simulador \
+  --stack-name cargaexpress-simulator \
   --parameter-overrides BucketName=YOUR-BUCKET-NAME \
   --region us-east-2
 uv sync --extra aws
@@ -102,7 +102,7 @@ In S3, select the bucket, click **Empty** and then **Delete**. With the CLI:
 
 ```bash
 aws s3 rm s3://YOUR-BUCKET-NAME --recursive
-aws cloudformation delete-stack --stack-name cargaexpress-simulador
+aws cloudformation delete-stack --stack-name cargaexpress-simulator
 ```
 
 ## Security
