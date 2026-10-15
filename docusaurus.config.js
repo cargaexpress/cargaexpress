@@ -1,6 +1,6 @@
 // @ts-check
 // The public address of the site comes from environment variables at deploy time
-// (see docs/deployment/deploying-to-s3.md). The defaults are meant for local development.
+// (see the README). The defaults are meant for local development.
 const siteUrl = process.env.SITE_URL || 'http://localhost:3000';
 const baseUrl = process.env.BASE_URL || '/';
 
