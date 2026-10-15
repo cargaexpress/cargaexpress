@@ -155,4 +155,4 @@ The other fact tables share the same dimensions: date, brand, carrier, distribut
 ## Related
 
 [Data flow](./data-flow.md) · [SLA and delay](./sla-and-delay.md) · [Canonical states](./canonical-states.md) ·
-[ADR-0009](../decisions/0009-immutable-raw-events.md) · [ADR-0011](../decisions/0011-data-lake-and-star-schema.md)
+[ADR-0007](../decisions/0007-immutable-raw-events.md) · [ADR-0009](../decisions/0009-data-lake-and-star-schema.md)
