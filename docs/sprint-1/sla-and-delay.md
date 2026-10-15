@@ -28,8 +28,8 @@ flowchart LR
 | Stage | Responsible |
 |---|---|
 | Creation to dispatch | Distribution center (`CD`) |
-| Dispatch to delivery | Carrier (`TRANSPORTADORA`) |
-| An open issue caused by a wrong address | Brand (`MARCA`) |
+| Dispatch to delivery | Carrier (`CARRIER`) |
+| An open issue caused by a wrong address | Brand (`BRAND`) |
 | An open issue with any other cause | Carrier |
 
 The SLA clock counts **business days, without Sundays or public holidays of the destination country**. An issue can happen
@@ -48,7 +48,7 @@ at any stage.
 An order is at risk when either condition holds:
 
 - **24 business hours or less** remain before the deadline and the order is **not** out for delivery.
-- An issue (`NOVEDAD`) has been **open for more than 12 hours**.
+- An issue (`EXCEPTION`) has been **open for more than 12 hours**.
 
 The exact meaning of "24 business hours" is still an open decision. See [Business rules](./business-rules.md#open-ambiguities)
 (AMB-02).
