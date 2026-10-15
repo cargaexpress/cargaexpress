@@ -64,7 +64,7 @@ The design choices of this sprint are recorded as ADRs:
 |---|---|
 | Ambiguities of `US-01` | AMB-01 to AMB-05 are still pending a team decision. See [Business rules](./business-rules.md#open-ambiguities) |
 | Approvals of `US-02` | The mapping table needs team approval and the diagram needs validation by a second person |
-| Vocabulary | Business state names (`CREADO`…) and code names (`CREATED`…) both exist. A single official vocabulary should be chosen |
+| Vocabulary | Business state names (`CREATED`…) and code names (`CREATED`…) both exist. A single official vocabulary should be chosen |
 | Pull request template | Planned in `US-08`; not found on `main` |
 
 ## Next
