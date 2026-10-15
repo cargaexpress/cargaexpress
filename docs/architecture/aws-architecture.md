@@ -142,8 +142,8 @@ The diagram is wide. [Open the full-size image](pathname:///img/aws-architecture
 | **Files and history** | Flat files and seed → Landing → Bronze → Silver → Gold → Athena → Power BI |
 
 The detail of each stage is in [Data flow](../sprint-1/data-flow.md) and the reasons behind the main choices are in the
-[decision records](../decisions/index.md): [ADR-0009](../decisions/0009-immutable-raw-events.md),
-[ADR-0010](../decisions/0010-three-ingestion-modalities.md) and [ADR-0011](../decisions/0011-data-lake-and-star-schema.md).
+[decision records](../decisions/index.md): [ADR-0007](../decisions/0007-immutable-raw-events.md),
+[ADR-0008](../decisions/0008-three-ingestion-modalities.md) and [ADR-0009](../decisions/0009-data-lake-and-star-schema.md).
 
 ## What exists today
 
