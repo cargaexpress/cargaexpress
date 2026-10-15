@@ -31,8 +31,8 @@ the order.
 
 | Subtask | Work |
 |---|---|
-| RIWI-69 | `POST /api/v1/pedidos/{id}/guias` registers a new guide for an order |
-| RIWI-70 | `GET /api/v1/pedidos/{id}/guias` lists the guides of an order |
+| RIWI-69 | `POST /api/v1/orders/{id}/shipping-labels` registers a new guide for an order |
+| RIWI-70 | `GET /api/v1/orders/{id}/shipping-labels` lists the guides of an order |
 
 **Result in the branch.** A guide schema, a guide service, new error types in the services layer, the two routes added to the
 orders router, and a test file for the guide endpoints. The branch is not yet merged into `main`.
@@ -43,16 +43,17 @@ orders router, and a test file for the guide endpoints. The branch is not yet me
 
 | Subtask | Work |
 |---|---|
-| RIWI-73 | `GET /api/v1/admin/mapeo-estados/{id}` |
-| RIWI-74 | `PUT /api/v1/admin/mapeo-estados/{id}`: replaces the full mapping and applies it without restarting |
+| RIWI-73 | `GET /api/v1/admin/carrier-state-mapping/{id}` |
+| RIWI-74 | `PUT /api/v1/admin/carrier-state-mapping/{id}`: replaces the full mapping and applies it without restarting |
 | RIWI-75 | A `pytest` test that checks the change is reflected without a restart |
 
 **Result.** The router, schemas, service and tests are on `main`. A concurrent write that wins the race answers `409` with a
 message to retry.
 
 :::warning Not reachable yet
-The router `admin_mapeo_estados` is **not registered** in `backend/app/main.py`, so these two routes are not served. Adding the
-import and an `include_router` call fixes it. See [Project status](../project/status.md).
+The HU-15 router is **not registered** in `backend/app/main.py`, so these two routes are not served. Adding the import and an
+`include_router` call fixes it. The fix is in branch `fix/RIWI-72-register-mapping-router`, pending a pull request. See
+[Project status](../project/status.md).
 :::
 
 ## HU-16 · OpenAPI and Swagger documentation
