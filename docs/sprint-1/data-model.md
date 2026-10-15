@@ -18,7 +18,7 @@ The data design has three layers, each answering a different question:
 | **Control tower tracking** | Where is each guide, was it on time, who is responsible, what is owed? | [Below](#2-control-tower-tracking) |
 | **Analytics star schema** | How are carriers, brands and regions performing over time? | [Below](#3-analytics-star-schema) |
 
-Column names are shown as they appear in the design diagrams, with the English meaning of the Spanish ones.
+The design diagrams use Spanish names. This page uses the English names, with the same meaning.
 
 ## 1. Operational WMS
 
@@ -45,25 +45,25 @@ erDiagram
 
 | Table | Purpose | Key columns |
 |---|---|---|
-| `brand` | Client brand | `brand_id`, `nombre` (name), `es_premium` (is premium) |
-| `distribution_center` | Warehouse that fulfils orders | `cd_id`, `nombre`, `ciudad` (city), `pais` (country), `zona_horaria` (time zone) |
-| `shipping_type` | Service type | `tipo_envio_id`, `nombre` |
-| `region` | Destination region | `region_id`, `nombre`, `pais` |
-| `carrier` | Transport carrier | `carrier_id`, `nombre`, `modalidad` (A, B or C), `estado` (status) |
-| `orders` | The order | `order_id`, `brand_id`, `cd_id`, `tipo_envio_id`, `region_id`, `referencia_marca` (brand reference, unique), `created_at` |
-| `recipient` | Personal data of the receiver, isolated for RN-10 | `order_id`, `nombre`, `email`, `direccion` (address), `telefono` (phone) |
-| `shipping_label` | The guide | `label_id`, `order_id`, `carrier_id`, `numero_guia` (guide number, unique), `valor_flete` (freight value) |
-| `dispatch` | One dispatch per guide | `dispatch_id`, `label_id` (one to one), `despachado_en` (dispatched at) |
-| `order_line` | A product line of an order | `line_id`, `order_id`, `num_linea`, `sku`, `cantidad` (quantity), `valor_unitario` |
-| `picking_task` | Warehouse picking work | `picking_id`, `order_id`, `inicio` (start), `fin` (end), `estado` |
-| `picking_line` | Quantity requested and picked per line | `picking_id`, `line_id`, `cant_solicitada`, `cant_alistada` |
-| `label_line` | Which lines and quantities travel in each guide | `label_id`, `line_id`, `cantidad` |
+| `brand` | Client brand | `brand_id`, `name`, `is_premium` |
+| `distribution_center` | Warehouse that fulfils orders | `dc_id`, `name`, `city`, `country`, `time_zone` |
+| `shipping_type` | Service type | `shipping_type_id`, `name` |
+| `region` | Destination region | `region_id`, `name`, `country` |
+| `carrier` | Transport carrier | `carrier_id`, `name`, `integration_type` (A, B or C), `status` |
+| `orders` | The order | `order_id`, `brand_id`, `dc_id`, `shipping_type_id`, `region_id`, `brand_reference` (unique), `created_at` |
+| `recipient` | Personal data of the receiver, isolated for RN-10 | `order_id`, `name`, `email`, `address`, `phone` |
+| `shipping_label` | The guide | `label_id`, `order_id`, `carrier_id`, `tracking_number` (unique), `freight_value` |
+| `dispatch` | One dispatch per guide | `dispatch_id`, `label_id` (one to one), `dispatched_at` |
+| `order_line` | A product line of an order | `line_id`, `order_id`, `line_number`, `sku`, `quantity`, `unit_price` |
+| `picking_task` | Warehouse picking work | `picking_id`, `order_id`, `started_at`, `completed_at`, `status` |
+| `picking_line` | Quantity requested and picked per line | `picking_id`, `line_id`, `quantity_requested`, `quantity_picked` |
+| `label_line` | Which lines and quantities travel in each guide | `label_id`, `line_id`, `quantity` |
 
 ### Integrity rules
 
 - Foreign keys to the catalogs (brand, carrier, distribution center) use `ON DELETE RESTRICT`.
-- Unique: `(brand_id, referencia_marca)` and `(carrier_id, numero_guia)`.
-- Checks: `cantidad > 0` and `cant_alistada <= cant_solicitada`.
+- Unique: `(brand_id, brand_reference)` and `(carrier_id, tracking_number)`.
+- Checks: `quantity > 0` and `quantity_picked <= quantity_requested`.
 - Dates are `timestamptz` in UTC, and the 16:00 cut-off follows the time zone of the distribution center.
 - RN-07: an order meets the SLA only if all of its guides do.
 - RN-10: personal data is isolated in `recipient`.
@@ -91,23 +91,23 @@ erDiagram
 
 | Table | Purpose | Key columns |
 |---|---|---|
-| `raw_event` | Original message, never modified | `raw_id`, `carrier_id`, `modalidad`, `payload` (json), `recibido_en` (received at), `hash` (unique) |
-| `tracking_event` | Interpreted event | `event_id`, `raw_id`, `label_id`, `carrier_id`, `estado_canonico`, `ocurrio_en` (occurred at, UTC), `es_anomalia` (is anomaly) |
-| `shipment_status` | Current state of each guide | `label_id`, `estado_actual`, `actualizado_en`, `novedad_abierta_desde` (issue open since) |
-| `carrier_status_map` | Versioned translation of carrier codes | `map_id`, `carrier_id`, `estado_origen`, `estado_canonico`, `vigente_desde`, `vigente_hasta`, `version` |
-| `unmatched_event` | Events for guides that do not exist in the WMS, with no foreign key on purpose | `unmatched_id`, `raw_id`, `carrier_id`, `numero_guia`, `motivo` (reason) |
-| `sla_rule` | Business days allowed | `regla_id`, `brand_id`, `tipo_envio_id`, `region_id`, `dias_habiles` (business days) |
-| `shipment_sla` | Deadline, delay, responsible and risk per guide | `label_id`, `fecha_limite` (deadline), `dias_retraso` (days late), `responsable`, `en_riesgo` (at risk) |
-| `calendar_day` | Business days and holidays per country | `pais`, `fecha`, `es_habil`, `es_festivo`, `hora_corte` (cut-off time) |
-| `penalty_rule` | Percentage of freight per delay tier | `tramo_id`, `dias_desde`, `dias_hasta`, `pct_flete` |
-| `penalty` | Penalty per guide | `penalty_id`, `label_id`, `dias_retraso`, `monto_marca` (amount to the brand), `monto_traslado` (amount passed to the carrier), `responsable`, `settlement_id` |
-| `settlement` | Half-month settlement per brand | `settlement_id`, `brand_id`, `quincena_inicio`, `quincena_fin` (half-month start and end), `a_pagar_marca`, `a_cobrar_transportadora`, `neto` (net) |
-| `carrier_compliance` | Compliance per carrier and half-month | `carrier_id`, `quincena`, `cumplimiento_pct`, `en_revision` (under review) |
+| `raw_event` | Original message, never modified | `raw_id`, `carrier_id`, `integration_type`, `payload` (json), `received_at`, `hash` (unique) |
+| `tracking_event` | Interpreted event | `event_id`, `raw_id`, `label_id`, `carrier_id`, `canonical_status`, `occurred_at`, `is_anomaly` |
+| `shipment_status` | Current state of each guide | `label_id`, `current_status`, `updated_at`, `exception_open_since` |
+| `carrier_status_map` | Versioned translation of carrier codes | `map_id`, `carrier_id`, `raw_status`, `canonical_status`, `valid_from`, `valid_to`, `version` |
+| `unmatched_event` | Events for guides that do not exist in the WMS, with no foreign key on purpose | `unmatched_id`, `raw_id`, `carrier_id`, `tracking_number`, `reason` |
+| `sla_rule` | Business days allowed | `rule_id`, `brand_id`, `shipping_type_id`, `region_id`, `business_days` |
+| `shipment_sla` | Deadline, delay, responsible and risk per guide | `label_id`, `deadline`, `days_late`, `responsible_party`, `at_risk` |
+| `calendar_day` | Business days and holidays per country | `country`, `date`, `is_business_day`, `is_holiday`, `cutoff_time` |
+| `penalty_rule` | Percentage of freight per delay tier | `tier_id`, `days_from`, `days_to`, `freight_pct` |
+| `penalty` | Penalty per guide | `penalty_id`, `label_id`, `days_late`, `brand_amount`, `passed_on_amount`, `responsible_party`, `settlement_id` |
+| `settlement` | Half-month settlement per brand | `settlement_id`, `brand_id`, `period_start`, `period_end`, `payable_to_brand`, `receivable_from_carrier`, `net` |
+| `carrier_compliance` | Compliance per carrier and half-month | `carrier_id`, `half_month`, `compliance_pct`, `under_review` |
 
 ### Design decisions
 
 - `raw_event` is immutable and partitioned by month, and its hash avoids duplicates (CA-05).
-- `tracking_event` is unique per `(carrier_id, label_id, estado_canonico, ocurrio_en)`.
+- `tracking_event` is unique per `(carrier_id, label_id, canonical_status, occurred_at)`.
 - A final state is never replaced: a later event is flagged as an anomaly (RN-02).
 - `unmatched_event` keeps guides with no order in the WMS, without a foreign key on purpose.
 - `carrier_status_map` changes without redeploying and keeps its versions (RN-01).
@@ -121,26 +121,26 @@ dimension keeps its history (slowly changing dimension type 2).
 
 ```mermaid
 erDiagram
-    dim_fecha ||--o{ fact_envio : "dispatch and delivery date"
-    dim_marca ||--o{ fact_envio : brand
-    dim_transportadora ||--o{ fact_envio : carrier
-    dim_cd ||--o{ fact_envio : "distribution center"
-    dim_region ||--o{ fact_envio : region
-    dim_tipo_envio ||--o{ fact_envio : "shipping type"
+    dim_date ||--o{ fact_shipment : "dispatch and delivery date"
+    dim_brand ||--o{ fact_shipment : brand
+    dim_carrier ||--o{ fact_shipment : carrier
+    dim_distribution_center ||--o{ fact_shipment : "distribution center"
+    dim_region ||--o{ fact_shipment : region
+    dim_shipping_type ||--o{ fact_shipment : "shipping type"
 ```
 
 | Table | Kind | Purpose |
 |---|---|---|
-| `fact_envio` | Fact | **One row per guide.** Keys to every dimension, the order and guide numbers, `dias_transito` (days in transit), `dias_retraso` (days late), `cumplio_sla` (met SLA) and `valor_flete` |
-| `fact_pedido_sla` | Fact | One row per order: number of guides, guides on time, and whether all of them met the SLA |
-| `fact_penalidad` | Fact | Penalties: amount to the brand, amount passed on, responsible party and half-month |
-| `fact_evento` | Fact | Events: canonical state and anomaly flag |
-| `dim_fecha` | Dimension | Date, country, business day, holiday, half-month, month. Used in two roles: dispatch and delivery |
-| `dim_marca` | Dimension | Brand and whether it is premium |
-| `dim_transportadora` | Dimension (type 2) | Carrier with `vigente_desde`, `vigente_hasta` and `es_actual` to keep history |
-| `dim_cd` | Dimension | Distribution center, city, country, time zone |
+| `fact_shipment` | Fact | **One row per guide.** Keys to every dimension, the order and guide numbers, `days_in_transit`, `days_late`, `met_sla` and `freight_value` |
+| `fact_order_sla` | Fact | One row per order: number of guides, guides on time, and whether all of them met the SLA |
+| `fact_penalty` | Fact | Penalties: amount to the brand, amount passed on, responsible party and half-month |
+| `fact_event` | Fact | Events: canonical state and anomaly flag |
+| `dim_date` | Dimension | Date, country, business day, holiday, half-month, month. Used in two roles: dispatch and delivery |
+| `dim_brand` | Dimension | Brand and whether it is premium |
+| `dim_carrier` | Dimension (type 2) | Carrier with `valid_from`, `valid_to` and `is_current` to keep history |
+| `dim_distribution_center` | Dimension | Distribution center, city, country, time zone |
 | `dim_region` | Dimension | Region, country, time zone |
-| `dim_tipo_envio` | Dimension | Shipping type and its SLA in business days |
+| `dim_shipping_type` | Dimension | Shipping type and its SLA in business days |
 
 The other fact tables share the same dimensions: date, brand, carrier, distribution center and region.
 
