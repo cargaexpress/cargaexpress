@@ -57,13 +57,13 @@ created and resolved.
 |---|---|
 | Branches | `main`, `develop` and `feature-*` branches, defined in `US-08`. Work for each story is done on a branch named after its Jira key, for example `feature/RIWI-68` |
 | Pull requests | A pull request template was planned in `US-08`. See [Project status](./status.md) for whether it exists on `main` |
-| Commits | English, structured and file by file. See [Commit convention](../contributing/commit-convention.md) |
+| Commits | English, structured and file by file. The rules are in the repository README |
 | Review | Changes reach `main` through pull requests |
 
 ## Documentation practice
 
 - The architecture document and the decision records are maintained as part of `US-09`. See [Decision records](../decisions/index.md).
-- This site is the single place for project documentation, written in English. See [ADR-0007](../decisions/0007-documentation-site.md).
+- This site is the single place for project documentation, written in English.
 - Every business rule is traced to a component and to at least one automated test. See [Business rules](../sprint-1/business-rules.md).
 
 ## Tools
