@@ -39,7 +39,7 @@ drivers to include in any breakdown:
 | **Single-AZ database** | Cheaper than a multi-AZ database, at the price of less availability |
 | **Parquet partitioned by date in S3, queried with Athena** | Pay per query instead of running a data warehouse |
 | **Fargate instead of managed servers** | No idle servers to pay for in the batch jobs |
-| **Documentation on GitHub Pages** | Free for a public repository. See [ADR-0007](../decisions/0007-documentation-site.md) |
+| **Documentation on GitHub Pages** | Free for a public repository. |
 | **Simulators publish small files to S3** | Storage cost is negligible; there are no servers running. See [Publishing to S3](../simulator/publishing-to-s3.md) |
 | **Local development with Docker** | No cloud cost for development. See [Running locally](../architecture/local-development.md) |
 
