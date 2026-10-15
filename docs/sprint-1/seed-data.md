@@ -62,14 +62,14 @@ cases of the business rules.
 | `SCN-04` | Dispatch took 54 hours, distribution center responsible |
 | `SCN-05` | Wrong-address issue, brand responsible, no penalty |
 | `SCN-06` | One order with 2 guides, one on time and one late (RN-07) |
-| `SCN-07` | An event arrives after `ENTREGADO` (RN-02) |
+| `SCN-07` | An event arrives after `DELIVERED` (RN-02) |
 | `SCN-08` | Dispatched on a Saturday, 14 business hours to the deadline, still in transit: at risk |
 | `SCN-09` | Same dates as `SCN-08` but already out for delivery: not at risk |
 | `SCN-10` | An issue open for 16 hours: at risk |
 | `SCN-11` | Dispatched on a public holiday |
 | `SCN-12` | Distribution center in Mexico, destination Peru: the destination calendar is used |
 
-Carrier 12 stays under 85% compliance for two consecutive half-months and is `EN_REVISIÓN` (RN-09). Carrier 11 has only one
+Carrier 12 stays under 85% compliance for two consecutive half-months and is `UNDER_REVIEW` (RN-09). Carrier 11 has only one
 bad period and stays `ACTIVO`.
 
 ## Data quality defects
