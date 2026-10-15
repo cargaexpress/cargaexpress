@@ -15,50 +15,49 @@ that protects final states.
 
 ## The 8 states
 
-| Business name | Meaning | Type | Name in code |
-|---|---|---|---|
-| `CREADO` | Created: the order or guide exists in the WMS and has not been picked up | Initial | `CREATED` |
-| `RECOGIDO` | Picked up: the carrier received the package at the distribution center (equals dispatch) | Active | `PICKED_UP` |
-| `EN_TRANSITO` | In transit: moving between the carrier's nodes | Active | `IN_TRANSIT` |
-| `EN_REPARTO` | Out for delivery: on the last-mile route to the recipient | Active | `OUT_FOR_DELIVERY` |
-| `NOVEDAD` | Issue: wrong address, customer absent, held at a carrier depot | Active (exception) | `EXCEPTION` |
-| `ENTREGADO` | Delivered: received by the recipient | **Final** | `DELIVERED` |
-| `DEVUELTO` | Returned: sent back to the sender | **Final** | `RETURNED` |
-| `SINIESTRO` | Lost or damaged | **Final** | `LOST_OR_DAMAGED` |
+| State | Meaning | Type |
+|---|---|---|
+| `CREATED` | The order or guide exists in the WMS and has not been picked up | Initial |
+| `PICKED_UP` | The carrier received the package at the distribution center (equals dispatch) | Active |
+| `IN_TRANSIT` | Moving between the carrier's nodes | Active |
+| `OUT_FOR_DELIVERY` | On the last-mile route to the recipient | Active |
+| `EXCEPTION` | Issue: wrong address, customer absent, held at a carrier depot | Active (exception) |
+| `DELIVERED` | Received by the recipient | **Final** |
+| `RETURNED` | Sent back to the sender | **Final** |
+| `LOST_OR_DAMAGED` | Lost or damaged | **Final** |
 
-:::warning Two vocabularies for the same states
-The design documents (RN-01, this story and the data models) use the **business names** in the first column. The backend
-implemented in sprint 2 stores the **code names** in the last column. They are the same 8 states, one to one. The team should
-decide which vocabulary is the official one and use it everywhere.
+:::note One vocabulary
+The first design documents named these states in Spanish. This documentation uses the English names, which are the names
+stored by the backend, so the whole project speaks one language.
 :::
 
 ## State diagram
 
 ```mermaid
 flowchart LR
-    CREADO([CREADO<br/>Created]):::initial
-    RECOGIDO[RECOGIDO<br/>Picked up]:::active
-    TRANSITO[EN_TRANSITO<br/>In transit]:::active
-    REPARTO[EN_REPARTO<br/>Out for delivery]:::active
-    NOVEDAD{{NOVEDAD<br/>Issue}}:::issue
-    ENTREGADO[[ENTREGADO<br/>Delivered]]:::final
-    DEVUELTO[[DEVUELTO<br/>Returned]]:::final
-    SINIESTRO[[SINIESTRO<br/>Lost or damaged]]:::final
+    CREATED([CREATED<br/>Created]):::initial
+    PICKED_UP[PICKED_UP<br/>Picked up]:::active
+    TRANSIT[IN_TRANSIT<br/>In transit]:::active
+    DELIVERY[OUT_FOR_DELIVERY<br/>Out for delivery]:::active
+    EXCEPTION{{EXCEPTION<br/>Issue}}:::issue
+    DELIVERED[[DELIVERED<br/>Delivered]]:::final
+    RETURNED[[RETURNED<br/>Returned]]:::final
+    LOST_OR_DAMAGED[[LOST_OR_DAMAGED<br/>Lost or damaged]]:::final
 
-    CREADO --> RECOGIDO --> TRANSITO --> REPARTO --> ENTREGADO
-    TRANSITO -- "new node" --> TRANSITO
-    REPARTO -- "re-routing" --> TRANSITO
+    CREATED --> PICKED_UP --> TRANSIT --> DELIVERY --> DELIVERED
+    TRANSIT -- "new node" --> TRANSIT
+    DELIVERY -- "re-routing" --> TRANSIT
 
-    CREADO -. issue .-> NOVEDAD
-    RECOGIDO -. issue .-> NOVEDAD
-    TRANSITO -. issue .-> NOVEDAD
-    REPARTO -. issue .-> NOVEDAD
-    NOVEDAD -- resolved --> TRANSITO
-    NOVEDAD -- resolved --> REPARTO
-    NOVEDAD -- "delivered anyway" --> ENTREGADO
+    CREATED -. issue .-> EXCEPTION
+    PICKED_UP -. issue .-> EXCEPTION
+    TRANSIT -. issue .-> EXCEPTION
+    DELIVERY -. issue .-> EXCEPTION
+    EXCEPTION -- resolved --> TRANSIT
+    EXCEPTION -- resolved --> DELIVERY
+    EXCEPTION -- "delivered anyway" --> DELIVERED
 
-    RECOGIDO & TRANSITO & REPARTO & NOVEDAD --> DEVUELTO
-    CREADO & RECOGIDO & TRANSITO & REPARTO & NOVEDAD --> SINIESTRO
+    PICKED_UP & TRANSIT & DELIVERY & EXCEPTION --> RETURNED
+    CREATED & PICKED_UP & TRANSIT & DELIVERY & EXCEPTION --> LOST_OR_DAMAGED
 
     classDef initial fill:#e6f4ea,stroke:#1e7a3c,color:#111
     classDef active fill:#e8f0fe,stroke:#2b59c3,color:#111
@@ -67,38 +66,38 @@ flowchart LR
 ```
 
 **How to read it.** Follow the solid line across the top for the normal path: created, picked up, in transit, out for
-delivery, delivered. The dotted lines are the *issue* loop: any active state can raise a `NOVEDAD`, which later returns to
+delivery, delivered. The dotted lines are the *issue* loop: any active state can raise a `EXCEPTION`, which later returns to
 transit or delivery, or ends in a final state. Red double-border boxes are **final states**: no arrow leaves them. A guide can
-end as returned or lost from the states shown; the exact pairs are in the matrix below (for example `CREADO` cannot go
-straight to `DEVUELTO`).
+end as returned or lost from the states shown; the exact pairs are in the matrix below (for example `CREATED` cannot go
+straight to `RETURNED`).
 
 ## Valid transitions
 
 Row is the current state, column is the new state. ✔ is valid. ✘ is invalid and is recorded as an anomaly. A dash is the same
 state.
 
-| From \ To | `CREADO` | `RECOGIDO` | `EN_TRANSITO` | `EN_REPARTO` | `NOVEDAD` | `ENTREGADO` | `DEVUELTO` | `SINIESTRO` |
+| From \ To | `CREATED` | `PICKED_UP` | `IN_TRANSIT` | `OUT_FOR_DELIVERY` | `EXCEPTION` | `DELIVERED` | `RETURNED` | `LOST_OR_DAMAGED` |
 |---|---|---|---|---|---|---|---|---|
-| **`CREADO`** | – | ✔ | ✘ | ✘ | ✔ | ✘ | ✘ | ✔ |
-| **`RECOGIDO`** | ✘ | – | ✔ | ✘ | ✔ | ✘ | ✔ | ✔ |
-| **`EN_TRANSITO`** | ✘ | ✘ | ✔ repeated | ✔ | ✔ | ✘ | ✔ | ✔ |
-| **`EN_REPARTO`** | ✘ | ✘ | ✔ re-routing | – | ✔ | ✔ | ✔ | ✔ |
-| **`NOVEDAD`** | ✘ | ✘ | ✔ | ✔ | – | ✔ | ✔ | ✔ |
-| **`ENTREGADO`** | ✘ | ✘ | ✘ | ✘ | ✘ | – | ✘ | ✘ |
-| **`DEVUELTO`** | ✘ | ✘ | ✘ | ✘ | ✘ | ✘ | – | ✘ |
-| **`SINIESTRO`** | ✘ | ✘ | ✘ | ✘ | ✘ | ✘ | ✘ | – |
+| **`CREATED`** | – | ✔ | ✘ | ✘ | ✔ | ✘ | ✘ | ✔ |
+| **`PICKED_UP`** | ✘ | – | ✔ | ✘ | ✔ | ✘ | ✔ | ✔ |
+| **`IN_TRANSIT`** | ✘ | ✘ | ✔ repeated | ✔ | ✔ | ✘ | ✔ | ✔ |
+| **`OUT_FOR_DELIVERY`** | ✘ | ✘ | ✔ re-routing | – | ✔ | ✔ | ✔ | ✔ |
+| **`EXCEPTION`** | ✘ | ✘ | ✔ | ✔ | – | ✔ | ✔ | ✔ |
+| **`DELIVERED`** | ✘ | ✘ | ✘ | ✘ | ✘ | – | ✘ | ✘ |
+| **`RETURNED`** | ✘ | ✘ | ✘ | ✘ | ✘ | ✘ | – | ✘ |
+| **`LOST_OR_DAMAGED`** | ✘ | ✘ | ✘ | ✘ | ✘ | ✘ | ✘ | – |
 
 ## Why the rules are the way they are
 
 | Rule | Reason |
 |---|---|
-| **Final states have no outgoing transitions** (RN-02) | `ENTREGADO`, `DEVUELTO` and `SINIESTRO` close the life of a guide. Delivery, SLA and penalties are calculated from them, so a late or wrong event must not reopen the guide |
-| **`EN_TRANSITO` → `EN_TRANSITO` is valid** | A package moves through several carrier nodes. Each new node is a legitimate progress event, not an error, so it creates no anomaly |
-| **`EN_REPARTO` → `EN_TRANSITO` is valid** (re-routing) | A package out for delivery can go back into the carrier's network to be routed again |
+| **Final states have no outgoing transitions** (RN-02) | `DELIVERED`, `RETURNED` and `LOST_OR_DAMAGED` close the life of a guide. Delivery, SLA and penalties are calculated from them, so a late or wrong event must not reopen the guide |
+| **`IN_TRANSIT` → `IN_TRANSIT` is valid** | A package moves through several carrier nodes. Each new node is a legitimate progress event, not an error, so it creates no anomaly |
+| **`OUT_FOR_DELIVERY` → `IN_TRANSIT` is valid** (re-routing) | A package out for delivery can go back into the carrier's network to be routed again |
 | **A repeated event with identical content is discarded** (CA-05) | The same message arriving twice is a retry, not a transition. It is dropped for idempotency and creates no anomaly |
-| **An older event does not roll the state back** | An event dated before the current state is kept in the history and flagged `FUERA_DE_ORDEN` (out of order). The state does not move backwards |
-| **An invalid transition does not change the state** | The event is still stored, so nothing is lost, and it is flagged `TRANSICION_INVALIDA` for review |
-| **An unmapped carrier code does not block the flow** | The event is stored as `SIN_MAPEO` (unmapped) and the operator is alerted. New codes are detected without losing data |
+| **An older event does not roll the state back** | An event dated before the current state is kept in the history and flagged `OUT_OF_ORDER` (out of order). The state does not move backwards |
+| **An invalid transition does not change the state** | The event is still stored, so nothing is lost, and it is flagged `INVALID_TRANSITION` for review |
+| **An unmapped carrier code does not block the flow** | The event is stored as `UNMAPPED` (unmapped) and the operator is alerted. New codes are detected without losing data |
 
 ## Mapping table
 
@@ -106,26 +105,26 @@ The mapping lives in the database, so changing it needs no redeployment (CA-06).
 new version, which keeps the full history and allows rollback.
 
 ```sql
-CREATE TYPE estado_canonico AS ENUM (
-  'CREADO','RECOGIDO','EN_TRANSITO','EN_REPARTO',
-  'NOVEDAD','ENTREGADO','DEVUELTO','SINIESTRO');
+CREATE TYPE canonical_status AS ENUM (
+  'CREATED','PICKED_UP','IN_TRANSIT','OUT_FOR_DELIVERY',
+  'EXCEPTION','DELIVERED','RETURNED','LOST_OR_DAMAGED');
 
-CREATE TABLE mapeo_estado (
+CREATE TABLE state_mapping (
   id                SERIAL PRIMARY KEY,
-  transportadora_id INT NOT NULL REFERENCES transportadora(id),
-  codigo_externo    VARCHAR(60) NOT NULL,
-  estado_canonico   estado_canonico NOT NULL,
+  carrier_id INT NOT NULL REFERENCES carrier(id),
+  external_code    VARCHAR(60) NOT NULL,
+  canonical_status   canonical_status NOT NULL,
   version           INT NOT NULL,
-  vigente_desde     TIMESTAMPTZ NOT NULL DEFAULT now(),
-  vigente_hasta     TIMESTAMPTZ,            -- NULL = current
-  creado_por        VARCHAR(80) NOT NULL,
-  motivo_cambio     TEXT,
-  UNIQUE (transportadora_id, codigo_externo, version)
+  valid_from     TIMESTAMPTZ NOT NULL DEFAULT now(),
+  valid_to     TIMESTAMPTZ,            -- NULL = current
+  created_by        VARCHAR(80) NOT NULL,
+  change_reason     TEXT,
+  UNIQUE (carrier_id, external_code, version)
 );
 ```
 
-A unique index on `(transportadora_id, codigo_externo)` where `vigente_hasta IS NULL` guarantees one current translation per
-carrier code. A second table, `transicion_valida (desde, hacia)`, holds the valid pairs of the matrix.
+A unique index on `(carrier_id, external_code)` where `valid_to IS NULL` guarantees one current translation per
+carrier code. A second table, `valid_transition (desde, hacia)`, holds the valid pairs of the matrix.
 
 ### Example
 
@@ -134,27 +133,27 @@ problem.
 
 | Carrier | Mode | External code | Canonical state |
 |---|---|---|---|
-| TRANS-A1 | A (webhook) | `PICKED_UP` | `RECOGIDO` |
-| TRANS-A1 | A | `IN_TRANSIT` | `EN_TRANSITO` |
-| TRANS-A1 | A | `OUT_FOR_DELIVERY` | `EN_REPARTO` |
-| TRANS-A1 | A | `DELIVERED` | `ENTREGADO` |
-| TRANS-A1 | A | `ADDRESS_ISSUE` | `NOVEDAD` |
-| TRANS-A1 | A | `LOST` | `SINIESTRO` |
-| TRANS-B1 | B (API) | `10` | `RECOGIDO` |
-| TRANS-B1 | B | `20` | `EN_TRANSITO` |
-| TRANS-B1 | B | `30` | `EN_REPARTO` |
-| TRANS-B1 | B | `40` / `41` | `ENTREGADO` |
-| TRANS-B1 | B | `50` | `NOVEDAD` |
-| TRANS-B1 | B | `60` | `DEVUELTO` |
-| TRANS-C1 | C (file) | `Recolectado` | `RECOGIDO` |
-| TRANS-C1 | C | `En ruta` | `EN_TRANSITO` |
-| TRANS-C1 | C | `En distribución` | `EN_REPARTO` |
-| TRANS-C1 | C | `Entregado` / `Recibido conforme` | `ENTREGADO` |
-| TRANS-C1 | C | `Cliente ausente` | `NOVEDAD` |
-| TRANS-C1 | C | `Retenido en bodega` | `NOVEDAD` |
-| TRANS-C1 | C | `Devolución a origen` | `DEVUELTO` |
+| TRANS-A1 | A (webhook) | `PICKED_UP` | `PICKED_UP` |
+| TRANS-A1 | A | `IN_TRANSIT` | `IN_TRANSIT` |
+| TRANS-A1 | A | `OUT_FOR_DELIVERY` | `OUT_FOR_DELIVERY` |
+| TRANS-A1 | A | `DELIVERED` | `DELIVERED` |
+| TRANS-A1 | A | `ADDRESS_ISSUE` | `EXCEPTION` |
+| TRANS-A1 | A | `LOST` | `LOST_OR_DAMAGED` |
+| TRANS-B1 | B (API) | `10` | `PICKED_UP` |
+| TRANS-B1 | B | `20` | `IN_TRANSIT` |
+| TRANS-B1 | B | `30` | `OUT_FOR_DELIVERY` |
+| TRANS-B1 | B | `40` / `41` | `DELIVERED` |
+| TRANS-B1 | B | `50` | `EXCEPTION` |
+| TRANS-B1 | B | `60` | `RETURNED` |
+| TRANS-C1 | C (file) | `Recolectado` (collected) | `PICKED_UP` |
+| TRANS-C1 | C | `En ruta` (on route) | `IN_TRANSIT` |
+| TRANS-C1 | C | `En distribución` (in distribution) | `OUT_FOR_DELIVERY` |
+| TRANS-C1 | C | `Entregado` (delivered) / `Recibido conforme` (received in order) | `DELIVERED` |
+| TRANS-C1 | C | `Cliente ausente` (customer absent) | `EXCEPTION` |
+| TRANS-C1 | C | `Retenido en bodega` (held at the warehouse) | `EXCEPTION` |
+| TRANS-C1 | C | `Devolución a origen` (return to origin) | `RETURNED` |
 
-External codes are shown exactly as the carrier sends them, so some are in Spanish. Deliverable E-15 completes the 12 carriers,
+External codes are shown exactly as the carrier sends them. The type C codes are in Spanish, with the English meaning in brackets. Deliverable E-15 completes the 12 carriers,
 each with at least 6 proprietary states.
 
 ## Decision algorithm for an incoming event (RN-02)
@@ -164,30 +163,30 @@ flowchart TD
     A[Event arrives] --> B{Same content hash<br/>already seen?}
     B -- yes --> B1[Discard<br/>idempotency, CA-05]
     B -- no --> C{Mapping exists<br/>for the external code?}
-    C -- no --> C1[Store as SIN_MAPEO<br/>alert the operator]
+    C -- no --> C1[Store as UNMAPPED<br/>alert the operator]
     C -- yes --> D[Store the event<br/>always, for traceability]
     D --> E{Current state is final<br/>and the new one differs?}
-    E -- yes --> E1[Anomaly TRANSICION_DESDE_FINAL<br/>state unchanged]
+    E -- yes --> E1[Anomaly TRANSITION_FROM_FINAL<br/>state unchanged]
     E -- no --> F{Pair is in<br/>valid transitions?}
-    F -- no --> F1[Anomaly TRANSICION_INVALIDA<br/>state unchanged]
+    F -- no --> F1[Anomaly INVALID_TRANSITION<br/>state unchanged]
     F -- yes --> G{Event time is before<br/>the last applied one?}
-    G -- yes --> G1[Anomaly FUERA_DE_ORDEN<br/>state unchanged]
+    G -- yes --> G1[Anomaly OUT_OF_ORDER<br/>state unchanged]
     G -- no --> H[Update state and timestamp]
 ```
 
-Anomalies are stored in `anomalia_evento` with the event, the guide, the carrier, the current and received states and the
-detection time. The types are `TRANSICION_DESDE_FINAL`, `TRANSICION_INVALIDA`, `FUERA_DE_ORDEN`, `SIN_MAPEO` and
-`GUIA_INEXISTENTE`. Anomalies per carrier feed the dashboard question *Which carriers have the most event anomalies?*
+Anomalies are stored in `event_anomaly` with the event, the guide, the carrier, the current and received states and the
+detection time. The types are `TRANSITION_FROM_FINAL`, `INVALID_TRANSITION`, `OUT_OF_ORDER`, `UNMAPPED` and
+`LABEL_NOT_FOUND`. Anomalies per carrier feed the dashboard question *Which carriers have the most event anomalies?*
 
 ### Test cases
 
 | Given | When | Then |
 |---|---|---|
-| Guide is `ENTREGADO` (CA-01) | An "in transit" event arrives | State stays `ENTREGADO`, event is stored, anomaly `TRANSICION_DESDE_FINAL` |
-| Guide is `DEVUELTO` | An `ENTREGADO` event arrives | State stays `DEVUELTO`, anomaly `TRANSICION_DESDE_FINAL` |
-| Guide is `SINIESTRO` | An `EN_REPARTO` event arrives | State stays `SINIESTRO`, anomaly `TRANSICION_DESDE_FINAL` |
-| Guide is `ENTREGADO` | The same event is repeated (CA-05) | Discarded for idempotency, no anomaly |
-| The external code has no mapping | An event with a new code arrives | Stored as `SIN_MAPEO` and the operator is alerted |
+| Guide is `DELIVERED` (CA-01) | An "in transit" event arrives | State stays `DELIVERED`, event is stored, anomaly `TRANSITION_FROM_FINAL` |
+| Guide is `RETURNED` | An `DELIVERED` event arrives | State stays `RETURNED`, anomaly `TRANSITION_FROM_FINAL` |
+| Guide is `LOST_OR_DAMAGED` | An `OUT_FOR_DELIVERY` event arrives | State stays `LOST_OR_DAMAGED`, anomaly `TRANSITION_FROM_FINAL` |
+| Guide is `DELIVERED` | The same event is repeated (CA-05) | Discarded for idempotency, no anomaly |
+| The external code has no mapping | An event with a new code arrives | Stored as `UNMAPPED` and the operator is alerted |
 
 ## Acceptance criteria status
 
