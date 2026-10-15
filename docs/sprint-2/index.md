@@ -28,11 +28,6 @@ make the status mapping configurable, expose the API and build simulators that c
 
 The detailed list is in [Project status](../project/status.md); the Jira stories are in [User stories](../project/user-stories.md).
 
-## What changed from the design
-
-The implementation simplified the design in several places. They are all listed, with the reason where the sources give one, in
-[Design versus implementation](./design-vs-implementation.md).
-
 ## Related decisions
 
 [ADR-0001](../decisions/0001-backend-stack.md) · [ADR-0002](../decisions/0002-docker-compose-and-migrations.md) ·
