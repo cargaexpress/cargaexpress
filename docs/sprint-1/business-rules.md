@@ -15,7 +15,7 @@ requirement, an acceptance criterion and a test scenario. The source is the *Tec
 for Business Rules* (29 September 2026).
 
 :::note Names used in the rules
-State names such as `CREADO` or `ENTREGADO` are the fixed business identifiers of RN-01. Their English meaning and the names
+State names such as `CREATED` or `DELIVERED` are the fixed business identifiers of RN-01. Their English meaning and the names
 used in code are in [Canonical states](./canonical-states.md).
 :::
 
@@ -36,8 +36,8 @@ used in code are in [Canonical states](./canonical-states.md).
 
 ## RN-01 · State normalization
 
-**Rule.** All carrier states must be mapped to the canonical catalog: `CREADO`, `RECOGIDO`, `EN_TRANSITO`, `EN_REPARTO`,
-`NOVEDAD`, `ENTREGADO`, `DEVUELTO` and `SINIESTRO`.
+**Rule.** All carrier states must be mapped to the canonical catalog: `CREATED`, `PICKED_UP`, `IN_TRANSIT`, `OUT_FOR_DELIVERY`,
+`EXCEPTION`, `DELIVERED`, `RETURNED` and `LOST_OR_DAMAGED`.
 
 **Specification.** A configuration maps each carrier's source state to a canonical state, with the carrier, the source state,
 the canonical state, a configuration status and a version or validity period. Changing the mapping must not require a new
@@ -52,7 +52,7 @@ deployment.
 
 ## RN-02 · Final states
 
-**Rule.** A final state (`ENTREGADO`, `DEVUELTO` or `SINIESTRO`) can never be replaced by a non-final state. The late events
+**Rule.** A final state (`DELIVERED`, `RETURNED` or `LOST_OR_DAMAGED`) can never be replaced by a non-final state. The late events
 are recorded as anomalies.
 
 **Specification.** If an order is already in a final state and a later event is non-final, the system keeps the final state,
@@ -62,7 +62,7 @@ stores the new event, flags it as an anomaly and does not let it change the orde
 |---|---|
 | Component | Event processor and state transition validator |
 | Requirement | RF-02 |
-| Acceptance | CA-01: an `EN_TRANSITO` event after `ENTREGADO` does not change the state and is recorded as an anomaly |
+| Acceptance | CA-01: an `IN_TRANSIT` event after `DELIVERED` does not change the state and is recorded as an anomaly |
 | Test | `TEST-RN02` |
 
 ## RN-03 · SLA calculation
@@ -81,8 +81,8 @@ The worked example is in [SLA and delay](./sla-and-delay.md).
 
 ## RN-04 · Non-compliance risk
 
-**Rule.** An order is at risk when 24 business hours or less remain until the deadline and it is not `EN_REPARTO`, or when it
-has an open `NOVEDAD` for more than 12 hours.
+**Rule.** An order is at risk when 24 business hours or less remain until the deadline and it is not `OUT_FOR_DELIVERY`, or when it
+has an open `EXCEPTION` for more than 12 hours.
 
 **Specification.** The system periodically evaluates orders that have not reached a final state, marks them `EN_RIESGO`, and
 stores the reason.
@@ -101,8 +101,8 @@ stores the reason.
 | Situation | Responsible |
 |---|---|
 | Delay between creation and dispatch | Distribution center (`CD`) |
-| Delay between dispatch and delivery | Carrier (`TRANSPORTADORA`) |
-| `NOVEDAD` caused by a wrong address | Brand (`MARCA`) |
+| Delay between dispatch and delivery | Carrier (`CARRIER`) |
+| `EXCEPTION` caused by a wrong address | Brand (`BRAND`) |
 
 | | |
 |---|---|
@@ -154,7 +154,7 @@ consulted by period, brand, carrier and order, with the penalty, transferred and
 
 ## RN-09 · Carrier status
 
-**Rule.** A carrier with compliance below 85% in two consecutive half-months changes to `EN_REVISIÓN` and does not receive new
+**Rule.** A carrier with compliance below 85% in two consecutive half-months changes to `UNDER_REVIEW` and does not receive new
 shipments from premium brands.
 
 **Specification.** At the end of each half-month, compliance = compliant orders ÷ evaluated orders × 100.
@@ -163,7 +163,7 @@ shipments from premium brands.
 |---|---|
 | Component | Carrier performance evaluator and shipment assignment module |
 | Requirement | RF-08 |
-| Acceptance | CA-08: 80% in two consecutive half-months changes the carrier to `EN_REVISIÓN` |
+| Acceptance | CA-08: 80% in two consecutive half-months changes the carrier to `UNDER_REVIEW` |
 | Test | `TEST-RN09` |
 
 ## RN-10 · Personal data
@@ -212,10 +212,10 @@ an ADR when it applies.
 
 | ID | Rule | Question | Status |
 |---|---|---|---|
-| AMB-01 | RN-01 | What happens when a carrier state has no mapping? Is it an anomaly, and does the canonical state stay unchanged? | Pending in the specification. The US-02 design proposes storing the event as `SIN_MAPEO` with an operator alert, while the implemented API answers `404`. |
+| AMB-01 | RN-01 | What happens when a carrier state has no mapping? Is it an anomaly, and does the canonical state stay unchanged? | Pending in the specification. The US-02 design proposes storing the event as `UNMAPPED` with an operator alert, while the implemented API answers `404`. |
 | AMB-02 | RN-04 | What exactly are "24 business hours"? Which calendar and working schedule? | Pending |
 | AMB-03 | RN-06 | Which fields choose the penalty from F7: brand, shipping type, region and delay days? | Pending |
-| AMB-04 | RN-09 | What condition lets a carrier leave `EN_REVISIÓN`? | Pending |
+| AMB-04 | RN-09 | What condition lets a carrier leave `UNDER_REVIEW`? | Pending |
 | AMB-05 | RN-10 | Which fields are personal data, to be protected and kept out of the analytics layer? | Pending |
 
 :::note
