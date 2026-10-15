@@ -53,10 +53,10 @@ The design choices of this sprint are recorded as ADRs:
 | [ADR-0001](../decisions/0001-backend-stack.md) | FastAPI, async SQLAlchemy and PostgreSQL |
 | [ADR-0002](../decisions/0002-docker-compose-and-migrations.md) | Docker Compose, multi-stage image and migrations on start |
 | [ADR-0003](../decisions/0003-canonical-statuses-and-state-mapping.md) | 8 canonical states with a database-backed mapping |
-| [ADR-0009](../decisions/0009-immutable-raw-events.md) | Raw events stored unchanged and de-duplicated by hash |
-| [ADR-0010](../decisions/0010-three-ingestion-modalities.md) | Push, pull and file ingestion |
-| [ADR-0011](../decisions/0011-data-lake-and-star-schema.md) | Layered data lake and star schema |
-| [ADR-0012](../decisions/0012-utc-and-business-calendars.md) | UTC storage with calendars by country |
+| [ADR-0007](../decisions/0007-immutable-raw-events.md) | Raw events stored unchanged and de-duplicated by hash |
+| [ADR-0008](../decisions/0008-three-ingestion-modalities.md) | Push, pull and file ingestion |
+| [ADR-0009](../decisions/0009-data-lake-and-star-schema.md) | Layered data lake and star schema |
+| [ADR-0010](../decisions/0010-utc-and-business-calendars.md) | UTC storage with calendars by country |
 
 ## Open at the end of the sprint
 
