@@ -111,10 +111,10 @@ The estimated infrastructure cost is about USD 460 per month. See [Costs](../pro
 
 | Decision | Record |
 |---|---|
-| Raw events are stored unchanged and de-duplicated by hash | [ADR-0009](../decisions/0009-immutable-raw-events.md) |
-| Three ingestion modalities converge on one raw store | [ADR-0010](../decisions/0010-three-ingestion-modalities.md) |
-| Data lake in layers and a star schema for analytics | [ADR-0011](../decisions/0011-data-lake-and-star-schema.md) |
-| Everything stored in UTC with calendar and cut-off by country | [ADR-0012](../decisions/0012-utc-and-business-calendars.md) |
+| Raw events are stored unchanged and de-duplicated by hash | [ADR-0007](../decisions/0007-immutable-raw-events.md) |
+| Three ingestion modalities converge on one raw store | [ADR-0008](../decisions/0008-three-ingestion-modalities.md) |
+| Data lake in layers and a star schema for analytics | [ADR-0009](../decisions/0009-data-lake-and-star-schema.md) |
+| Everything stored in UTC with calendar and cut-off by country | [ADR-0010](../decisions/0010-utc-and-business-calendars.md) |
 
 ## What was built from it
 
