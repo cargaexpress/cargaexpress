@@ -24,6 +24,134 @@ total. Models live in `backend/app/models/`, one file per table, and are registe
 | `shipping_label_items` | Items on each shipping label |
 | `state_mapping` | Translation of each carrier's raw status to a canonical status |
 
+## Entity-relationship diagram
+
+The same 12 tables as a diagram, taken from the second page of the team's draw.io file
+([`cargaexpress-architecture.drawio`](pathname:///files/cargaexpress-architecture.drawio)). Names here are the logical entities;
+the physical table names are in the list above.
+
+```mermaid
+erDiagram
+    BRAND ||--o{ ORDER : has
+    DISTRIBUTION_CENTER ||--o{ ORDER : serves
+    DISTRIBUTION_CENTER ||--o{ DISPATCH : manages
+    SHIPMENT_TYPE ||--o{ ORDER : classifies
+    CARRIER ||--o{ DISPATCH : handles
+    CARRIER ||--o{ SHIPPING_LABEL : ships
+    CARRIER ||--o{ STATE_MAPPING : translates
+    ORDER ||--|| ORDER_RECIPIENT : has
+    ORDER ||--o{ ORDER_LINE : contains
+    ORDER ||--o{ SHIPPING_LABEL : emits
+    ORDER_LINE ||--o{ PICKING_TASK : tracks
+    ORDER_LINE ||--o{ SHIPPING_LABEL_ITEM : included_in
+    DISPATCH ||--o{ SHIPPING_LABEL : assigns
+    SHIPPING_LABEL ||--o{ SHIPPING_LABEL_ITEM : contains
+
+    BRAND {
+        bigint brand_id PK
+        varchar name
+        varchar tier
+        bool is_active
+        datetime created_at
+    }
+
+    DISTRIBUTION_CENTER {
+        bigint dc_id PK
+        varchar code
+        varchar name
+        varchar city
+        char(2) country_code
+    }
+
+    SHIPMENT_TYPE {
+        varchar shipment_type_code PK
+        varchar description
+    }
+
+    CARRIER {
+        bigint carrier_id PK
+        varchar name
+        varchar integration_type
+        varchar status
+        datetime created_at
+    }
+
+    ORDER {
+        bigint order_id PK
+        bigint brand_id FK
+        bigint dc_id FK
+        varchar shipment_type_code FK
+        varchar brand_order_ref
+        char(2) destination_country
+        varchar destination_region
+        numeric(12,2) freight_value
+        varchar status
+        datetime created_at
+    }
+
+    ORDER_RECIPIENT {
+        bigint order_id PK, FK
+        varchar full_name
+        varchar email
+        varchar phone
+        varchar address_line
+        varchar city
+    }
+
+    ORDER_LINE {
+        bigint order_line_id PK
+        bigint order_id FK
+        int line_number
+        varchar sku
+        varchar description
+        int quantity_ordered
+    }
+
+    PICKING_TASK {
+        bigint picking_id PK
+        bigint order_line_id FK
+        varchar picker_ref
+        int quantity_picked
+        varchar status
+        datetime started_at
+        datetime completed_at
+    }
+
+    DISPATCH {
+        bigint dispatch_id PK
+        bigint dc_id FK
+        bigint carrier_id FK
+        datetime dispatched_at
+    }
+
+    SHIPPING_LABEL {
+        bigint label_id PK
+        bigint order_id FK
+        bigint carrier_id FK
+        bigint dispatch_id FK
+        varchar tracking_number
+        varchar status
+        numeric(8,3) weight_kg
+        datetime created_at
+    }
+
+    SHIPPING_LABEL_ITEM {
+        bigint label_id PK, FK
+        bigint order_id FK
+        bigint order_line_id PK, FK
+        int quantity
+    }
+
+    STATE_MAPPING {
+        bigint id PK
+        bigint carrier_id FK
+        varchar raw_status
+        varchar canonical_status
+        datetime created_at
+        datetime updated_at
+    }
+```
+
 ## `state_mapping`
 
 | Column | Notes |
