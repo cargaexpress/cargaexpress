@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Validates the commit message according to docs/contributing/commit-convention.md
+# Validates the commit message according to the Commits section of README.md
 # Enable once per clone:  git config core.hooksPath .githooks
 set -euo pipefail
 
@@ -16,7 +16,7 @@ fail() {
   echo "  Received title: \"$title\"" >&2
   echo "  Format: type(optional scope): description in English, imperative, max 50 characters, no trailing period" >&2
   echo "  Types: feat fix perf build ci docs refactor style test chore" >&2
-  echo "  Guide: docs/contributing/commit-convention.md" >&2
+  echo "  Guide: the Commits section of README.md" >&2
   exit 1
 }
 
