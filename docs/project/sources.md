@@ -18,6 +18,7 @@ shows up, and what is still missing.
 | *US-02 Canonical State Catalog* | Attached to `RIWI-12` (US-02) | [Canonical states](../sprint-1/canonical-states.md) |
 | Review feedback on US-02 | Comment on `RIWI-12` | [Canonical states](../sprint-1/canonical-states.md) |
 | Architecture diagrams (detailed and one-page summary) | Attached to `RIWI-19` (US-03) | [Problem and goals](./problem-and-goals.md), [Architecture v1](../sprint-1/architecture-v1.md), [Costs](./costs.md) |
+| Team architecture and database diagram (draw.io, two pages) | Uploaded to this session by the team | [Architecture (AWS)](../architecture/aws-architecture.md), [Data model](../architecture/data-model.md#entity-relationship-diagram) |
 | Operational WMS ERD | Attached to `RIWI-25` (US-04) | [Data model](../sprint-1/data-model.md) |
 | Control tower tracking ERD | Attached to `RIWI-25` | [Data model](../sprint-1/data-model.md) |
 | Carriers-to-tower data flow | Attached to `RIWI-25` | [Data flow](../sprint-1/data-flow.md) |
