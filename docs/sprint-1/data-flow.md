@@ -87,4 +87,4 @@ flowchart LR
 ## Related
 
 [Architecture v1](./architecture-v1.md) · [Data model](./data-model.md) · [SLA and delay](./sla-and-delay.md) ·
-[ADR-0009](../decisions/0009-immutable-raw-events.md) · [ADR-0010](../decisions/0010-three-ingestion-modalities.md)
+[ADR-0007](../decisions/0007-immutable-raw-events.md) · [ADR-0008](../decisions/0008-three-ingestion-modalities.md)
