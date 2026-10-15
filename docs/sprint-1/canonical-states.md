@@ -29,7 +29,7 @@ that protects final states.
 :::warning Two vocabularies for the same states
 The design documents (RN-01, this story and the data models) use the **business names** in the first column. The backend
 implemented in sprint 2 stores the **code names** in the last column. They are the same 8 states, one to one. The team should
-decide which vocabulary is the official one and use it everywhere. See [Design versus implementation](../sprint-2/design-vs-implementation.md).
+decide which vocabulary is the official one and use it everywhere.
 :::
 
 ## State diagram
@@ -216,5 +216,4 @@ still need people to sign off.
 
 - [Business rules](./business-rules.md) · RN-01 and RN-02
 - [Data model](./data-model.md) · `carrier_status_map`, `tracking_event` and the anomaly flag
-- [Status mapping in the backend](../architecture/api-reference.md#status-mapping-hu-12)
 - [ADR-0003](../decisions/0003-canonical-statuses-and-state-mapping.md)
