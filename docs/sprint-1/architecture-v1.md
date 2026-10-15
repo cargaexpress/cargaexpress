@@ -9,6 +9,12 @@ sidebar_position: 4
 **Story:** `US-03` · RIWI-19 · *Define End-to-End Architecture v1* · Owner: Alexandra Peña Orozco · Epic: Architecture and
 Data Model · Subtasks: RIWI-22 (end-to-end flow), RIWI-23 (push, pull and file integration), RIWI-24 (initial ADRs)
 
+:::info A later version exists
+The team's later diagram, with the final region, databases and CI/CD targets, is in
+[Architecture (AWS)](../architecture/aws-architecture.md#differences-from-the-sprint-1-version). Where the two differ, that page is the
+reference. This page keeps the Sprint 1 design as it was defined.
+:::
+
 This is the **target design** of the control tower. It is the blueprint that sprint 2 starts to build. What exists in code
 today is described in [Implemented backend](../architecture/overview.md).
 
