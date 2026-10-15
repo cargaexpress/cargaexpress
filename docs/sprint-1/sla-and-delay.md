@@ -85,7 +85,7 @@ flowchart LR
 
 Everything is stored in UTC. The 16:00 cut-off and the holidays are applied using the time zone and the destination country of
 each order. If the distribution center is in one country and the destination in another, the clock uses the **destination**
-calendar (RN-03). See [ADR-0012](../decisions/0012-utc-and-business-calendars.md).
+calendar (RN-03). See [ADR-0010](../decisions/0010-utc-and-business-calendars.md).
 
 ## How the seed data exercises it
 
