@@ -63,16 +63,16 @@ The decisions are in [ADR-0003](../decisions/0003-canonical-statuses-and-state-m
 
 | Subtask | Work |
 |---|---|
-| RIWI-64 | `POST /api/v1/pedidos` |
-| RIWI-65 | `GET /api/v1/pedidos` and `GET /api/v1/pedidos/{id}` |
-| RIWI-66 | `PATCH /api/v1/pedidos/{id}/despacho` (as named in Jira) |
+| RIWI-64 | `POST /api/v1/orders` |
+| RIWI-65 | `GET /api/v1/orders` and `GET /api/v1/orders/{id}` |
+| RIWI-66 | `PATCH /api/v1/orders/{id}/dispatch` (as named in Jira) |
 | RIWI-67 | `pytest` tests for each endpoint |
 
 **Result.** Creating an order stores its lines and its recipient, and checks that the brand, the distribution center and the
 shipment type exist (otherwise `404`). The list is paginated. The update endpoint changes the status of the order.
 
 :::warning Name differs from Jira
-Jira names the update `PATCH /pedidos/{id}/despacho`, but the code serves `PATCH /pedidos/{id}/status`. The update is direct:
+Jira names the update `PATCH /orders/{id}/dispatch`, but the code serves `PATCH /orders/{id}/status`. The update is direct:
 rule RN-02, which stops an order from moving backwards from a final status, is not implemented yet.
 :::
 
