@@ -57,7 +57,7 @@ These stories are finished in Jira, but their code is still in feature branches 
 
 | Item | Detail |
 |---|---|
-| HU-15 router | Register `admin_mapeo_estados` in `app/main.py`, or the two routes are not served |
+| HU-15 router | Register the HU-15 router in `app/main.py`, or its two routes are not served. The fix is in branch `fix/RIWI-72-register-mapping-router`, pending a pull request |
 | Merge the feature branches | Open pull requests so the work above reaches `main` |
 | Webhook ingestion endpoint | The backend cannot receive carrier events yet. The simulators are ready to test it |
 | RN-02 | Block moves backwards from terminal statuses and record anomalies. Order status updates are direct today |
@@ -69,7 +69,7 @@ These stories are finished in Jira, but their code is still in feature branches 
 
 | Question | Why it matters |
 |---|---|
-| Two APIs edit the same table | HU-12 (`/admin/state-mappings`, one row at a time) and HU-15 (`/admin/mapeo-estados`, whole carrier at once) both change `state_mapping`. The team should confirm both are wanted |
-| Mixed route naming | Some routes are in Spanish (`pedidos`, `mapeo-estados`) and others in English (`state-mappings`, `health`). A single convention should be decided and recorded as an ADR |
-| Order endpoint name | Jira (HU-13) names `PATCH /pedidos/{id}/despacho`, but the code serves `PATCH /pedidos/{id}/status` |
+| Two APIs edit the same table | HU-12 (`/admin/state-mappings`, one row at a time) and HU-15 (`/admin/carrier-state-mapping`, whole carrier at once) both change `state_mapping`. The team should confirm both are wanted |
+| Mixed route naming | The code still serves some routes with Spanish names (`pedidos`, `mapeo-estados`, `guias`, `despacho`) and others in English (`state-mappings`, `health`). This documentation uses the English names (`orders`, `carrier-state-mapping`, `shipping-labels`, `dispatch`), which are the target. The code is being renamed, and these pages should be checked against it afterwards |
+| Order endpoint name | Jira (HU-13) names `PATCH /orders/{id}/dispatch`, but the code serves `PATCH /orders/{id}/status` |
 | Pull request template | US-08 lists it as done, but none was found on `main` |
