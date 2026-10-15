@@ -55,8 +55,7 @@ restarting the service (acceptance criterion CA-06).
 - Migrations `a3f1c9d27b45`, `b7e24d51c8a9` and `c4a1209b7e6f`. Each simulated carrier has at least six distinct source statuses.
 
 The decisions are in [ADR-0003](../decisions/0003-canonical-statuses-and-state-mapping.md),
-[ADR-0004](../decisions/0004-state-mapping-cache.md) and [ADR-0005](../decisions/0005-admin-api-authentication.md). How this differs
-from the sprint 1 design is in [Design versus implementation](./design-vs-implementation.md).
+[ADR-0004](../decisions/0004-state-mapping-cache.md) and [ADR-0005](../decisions/0005-admin-api-authentication.md).
 
 ## HU-13 · Order endpoints
 
@@ -85,4 +84,4 @@ See [Running the project locally](../architecture/local-development.md#run-the-t
 
 ## Related
 
-[Sprint 2 overview](./index.md) · [Sprint 2 · week 2](./week-2.md) · [API reference](../architecture/api-reference.md)
+[Sprint 2 overview](./index.md) · [Sprint 2 · week 2](./week-2.md)
