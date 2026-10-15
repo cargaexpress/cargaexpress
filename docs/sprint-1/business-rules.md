@@ -212,7 +212,7 @@ an ADR when it applies.
 
 | ID | Rule | Question | Status |
 |---|---|---|---|
-| AMB-01 | RN-01 | What happens when a carrier state has no mapping? Is it an anomaly, and does the canonical state stay unchanged? | Pending in the specification. The US-02 design proposes storing the event as `SIN_MAPEO` with an operator alert, while the implemented API answers `404`. See [Design versus implementation](../sprint-2/design-vs-implementation.md) |
+| AMB-01 | RN-01 | What happens when a carrier state has no mapping? Is it an anomaly, and does the canonical state stay unchanged? | Pending in the specification. The US-02 design proposes storing the event as `SIN_MAPEO` with an operator alert, while the implemented API answers `404`. |
 | AMB-02 | RN-04 | What exactly are "24 business hours"? Which calendar and working schedule? | Pending |
 | AMB-03 | RN-06 | Which fields choose the penalty from F7: brand, shipping type, region and delay days? | Pending |
 | AMB-04 | RN-09 | What condition lets a carrier leave `EN_REVISIÓN`? | Pending |
