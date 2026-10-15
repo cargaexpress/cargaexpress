@@ -91,7 +91,7 @@ and tests for both. It is not yet merged into `main`.
 
 ## RabbitMQ in Docker Compose (RIWI-111)
 
-**Goal.** Provide the message broker for push ingestion (see [ADR-0010](../decisions/0010-three-ingestion-modalities.md)).
+**Goal.** Provide the message broker for push ingestion (see [ADR-0008](../decisions/0008-three-ingestion-modalities.md)).
 
 **Result in the branch.** A `rabbitmq` service with the management interface, persistent storage for queues and messages, a health
 check, and credentials read from `.env` (`RABBITMQ_USER` and `RABBITMQ_PASSWORD`). The AMQP port is `5672` and the web interface
@@ -99,4 +99,4 @@ is `15672`. Not yet merged into `main`.
 
 ## Related
 
-[Sprint 2 overview](./index.md) · [Sprint 2 · week 1](./week-1.md) · [Design versus implementation](./design-vs-implementation.md)
+[Sprint 2 overview](./index.md) · [Sprint 2 · week 1](./week-1.md)
